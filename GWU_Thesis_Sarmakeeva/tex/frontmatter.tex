@@ -1,0 +1,228 @@
+% !TEX root = ../thesis-sample.tex
+
+% --------- FRONT MATTER PAGES ---------------------
+
+% Title of the thesis
+\title{A Resolved CFD-DEM Coupling Method for Simulation Two-Phase Fluids Interaction with Arbitrary Shaped Bodies.}
+% capitalize significant words!
+
+% Author name
+\author{Anastasiia Sarmakeeva}
+
+% Previous degrees
+\bachelordegree{Specialist's degree}
+\bsdepartment{Applied Mathematics and Computer Science}
+\bsschool{Udmurt State University}
+\bsgrad{July 2014} % "month year"
+
+\masterdegree{M.S.}
+\msdepartment{Your graduate old department}
+\msschool{Your graduate alma mater}
+\msgrad{Month YYYY}  % "month year"
+% you can show or hide the MS degree line
+%\showmsdegree
+\hidemsdegree
+
+% PhD degree commands
+% Committee
+\showcommitteepage % hide this page if you're doing a MS thesis
+%\hidecommitteepage 
+
+
+% define COMMITTEE information
+
+% in general, note that administrative titles are not used, instead use "professorial titles"?
+
+% Chair must be entered separately for formatting reasons.
+\chair{Lorena A. Barba}
+\department{Mechanical and Aerospace Engineering}
+\chairtitle{Professor of Mechanical and Aerospace Engineering}
+
+% uncomment and use the below if you have a co-chair. note the code reacts to the \cochair{} , not the \cochairtitle{}
+% \cochair{Co-Chair Person}
+% \cochairtitle{Just-as-Amazing Professor of \insertdepartment}
+
+\phdschool{The School of Engineering and Applied Science}
+
+\committee{ 
+% director first
+Lorena A. Barba, Professor of Mechanical and Aerospace Engineering,\\ 
+Dissertation Director
+
+% remember to add a space between committee members
+\vspace{\baselineskip}
+Elias Balaras, Professor of Engineering and Applied Science, Committee Member \hfill
+    
+
+\vspace{\baselineskip}
+Kausik Sarkar, Professor of Mechanical and Aerospace Engineering, Committee Member \hfill
+
+\vspace{\baselineskip}
+% note you shouldn't write "The George Washington University" at all- it is implied
+Thomas Lichtenegger, Department of Particulate Flow Modelling, Committee Member \hfill
+
+\vspace{\baselineskip}
+
+Full Name, Title, Dissertation Director/Dissertation Co-Director/Committee Member \hfill
+
+\vspace{\baselineskip}
+
+% external examiner
+Name of External Examiner, Professorial Title, Name of External University (or Name, Job Title, Name of External Company), Committee Member  % include university or company of any external examiner! but still "committee member"
+}
+
+\phdgrad{January 8, 2024}  % Month DD, YYYY
+\defensedate{December 18, 2023}  % Month DD, YYYY
+% Year of completion for copyright page and perhaps other places
+\year=2023
+
+% Copyright page
+%\copyrightholder{Someone else}
+
+% Dedication
+\dedication{ %
+\emph{To myself.}
+}
+
+% Acknowledgments
+\acknowledgments{
+    For me, this journey has been longer and more complex than anyone could have ever imagined. First and foremost, I'd like to express my deepest gratitude to my family — my mom, dad, and brother. I couldn't have reached this point without your unwavering support.
+    
+I must also extend my heartfelt thanks to my advisor, Professor Lorena Barba. Her introduction to Almadena Chtchelkanova solidified my decision to complete my work in the U.S. under her guidance. I am immensely grateful for her support throughout my time at George Washington University.
+
+I also owe a debt of gratitude to Professor Thomas Lichtenegger. His support at the PFM lab significantly enhanced the computational aspect of my research, and I gained invaluable insights from our meetings.
+
+Special acknowledgment goes to Zephra Coles, the Department Operations Lead. Her outstanding management skills have made my paperwork at GWU far more manageable.
+
+I want to extend my thanks to my lab mates: Paulina Rodriguez, Ting-Gyu Wang, Olivier Mesnard, Natalia Clementi, and Pi-Yueh Chang.
+Further thanks go to researchers Leonid Tonkov, Alena Chernova, and Alexander Novikov. Their expertise and support were invaluable as I embarked on my research journey.
+
+Last but not least, I want to thank my partner, Lawrence Kirk, your emotional and intellectual support has been my rock. My Russian-speaking graduate friends, Anna Medvedeva, Maria Sidulova, and Anna Webber. Your support has made my journey in a foreign country significantly smoother.
+}
+
+% -----------------------------------------------------------------
+% Typically only one of Preface/Foreword/Prologue would be in your thesis.
+% To choose one simply delete the others and they will automatically disappear
+
+% Preface
+\preface{
+    This is the preface. 
+    It's another front matter page that offers additional detail into your work.
+    Typically, only one (preface OR prologue OR foreword) is used. 
+    You can remove the other sections by deleting them inside \texttt{tex/frontmatter.tex} or using the appropriate show or hide commands.
+}
+
+\prologue{
+    This is the prologue. 
+    It's another front matter page that offers additional detail into your work.
+    Typically, only one (preface OR prologue OR foreword) is used. 
+    You can remove the other sections by deleting them inside \texttt{tex/frontmatter.tex} or using the appropriate show or hide commands.
+}
+
+\foreword[2]{
+    This is the foreword. 
+    It's another front matter page that offers additional detail into your work.
+    Typically, only one (preface OR prologue OR foreword) is used. 
+    You can remove the other sections by deleting them inside \texttt{tex/frontmatter.tex} or using the appropriate show or hide commands.
+}
+% ----------------------------------------------------------------------
+
+% commands to show or hide front matter pages
+
+\showcopyright
+\showabstract
+\showcommitteepage
+\showdedication
+\showacknowledgments
+\showpreface
+\hideprologue
+\hideforeword
+
+% Commands to hide or show lists of figures, tables, etc.
+\showtableofcontents
+\showlistoffigures
+\showlistoftables
+\hidenomenclature
+
+% ^ NOTE! April 4 hack for April 15 deadline - if any of these are missing from your TOC and there should be entries there, see lines 1435-1447 of the class file for an example. You need to wrap the appropriate function call adding a call to addcontentsline
+
+
+
+
+% --------- ACRONYMS and SYMBOLS ------------------------------
+% TODO Deprecate the entire acronym package and switch to glossaries
+
+% You can either use the acronym or glossaries package (both work)
+% Definition of any abbreviations used.
+\abbreviations{
+    \acro{CRTBP}{Circular Restricted Three Body Problem}
+    \acro{NSA}{National Security Agency}
+    \acro{SSME}{Space Shuttle Main Engine}
+    \acro{HIDEME}{Hide the pages for One of These Abbreviation Systems; this is from abbreviations}
+}
+% call an abbreviation using \ac{abbrev}
+
+
+% if you want acronym (simpler) then change these to show
+%\showlistofabbreviations
+%\showlistofsymbols
+
+% if you want glossaries (more powerful) then leave above as hide
+% GLOSSARIES package options - automatically turns off front pages from acronym package
+
+% acronymns and symbols are basically the same, but there are two provided 
+% locations where they can show up
+\setabbreviationstyle[acronym]{long-short}
+\setabbreviationstyle[abbreviation]{long-short}
+%\makeglossaries
+% you can hide/show the glossaries page
+%\showglossarieslistofabbreviations
+%\showglossarieslistofsymbols
+%\showglossariesglossaryofterms
+
+% acronyms defined in glossaries
+\newabbreviation{crtbp}{CRTBP}{Circular Restricted Three Body Problem}
+\newabbreviation{lidar}{LIDAR}{Light Detection and Ranging}
+\newabbreviation{hideme}{HIDEME}{Hide One of These Abbreviation Systems; this is from Glossaries}
+
+% defining abbreviations like this allows for autocompletion
+\newglossaryentry{filo}{
+    name={FILO},
+    type=\glsxtrabbrvtype,
+    description={first in last out},
+    first={first in last out (FILO)}
+}
+
+% glossary entries
+\newglossaryentry{linux}{
+    name=Linux,
+    description={is a generic term referring to the family of Unix-like computer operating systems that use the Linux kernel},
+    plural=Linuces
+}
+
+\newglossaryentry{matrix}{
+    name={matrix},
+    plural={matrices},
+    description={rectangular array of quanttities}
+}
+
+% symbols
+\newglossaryentry{M}{
+    type=symbols,
+    name={\ensuremath{M}},
+    sort=M,
+    description={a \gls{matrix}}
+}
+
+\newglossaryentry{F}{
+    type=symbols,
+    name={\ensuremath{F}},
+    sort=F,
+    description={External Force}
+}
+
+% Some abstract text
+\abstract{
+This is the abstract. 
+
+}
