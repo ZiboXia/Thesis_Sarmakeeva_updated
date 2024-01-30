@@ -1,6 +1,17 @@
-\documentclass[thesis]{thesis-gwu}[2020/02/03]
+\documentclass[thesis]{thesis-gwu2}[2020/02/03]
 \usepackage{booktabs}
 \input{tex/frontmatter}
+
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\small\ttfamily,  % Sets the font and size
+  breaklines=true,             % Enables line breaking
+  frame=single,                % Adds a frame around the code
+  numbers=left,                % Adds line numbers
+  numberstyle=\small,%\tiny,           % Sets the size of the line numbers
+  tabsize=2                    % Sets the tab size
+}
 
 %% DOCUMENT AREA
 \begin{document}
@@ -9,12 +20,12 @@
 \include{tex/chapter2}
 \include{tex/chapter3}
 \include{tex/chapter4}   
-%\include{tex/chapter5} 
+%\include{tex/chapter5} LAPI
 \include{tex/results-example.tex}
 
 \bibliographystyle{plain}
 \bibliography{thesis-bib}
 
 % appendices must appear after
-\include{tex/appendix-ex}
+%\include{tex/appendix-ex}
 \end{document}

@@ -1,30 +1,34 @@
-% !TEX root = ../thesis-sample.tex
+\chapter{Conclusion} \label{chap:conclusion}
+Landslides are responsible for thousands of deaths every year. With the escalating frequency and severity of these events and progressive global warming, it is an ongoing concern. This research provides a numerical tool that could help in predicting landslide processes involving complex interaction with heterogeneous granular particles, air, and water, which is usually the case in coastal areas. 
 
-\chapter{Conclusion}\label{chap:ipsum}
+This work examines existing algorithms for presented problem reviewing and considering many different approaches for each part of the simulation process which is provided in the chapter \ref{chap:intro}. Because landslides in coastal areas are a complicated process, the problem was divided into several parts, with a deliberate choice of method for solid part, fluid, and multiphase flow simulation.
 
-%\subsection{Conclusion}
+First of all, it was decided that the most efficient method for this type of problem could be solved with the Fluid-Structure Interaction (FSI) method, which raised the question of the way of coupling. The closest to real-world issues is two-way coupling, where two different methods for solid and fluid parts exchange data each time step.
+
+Then, an approach for two-way coupling was considered. The \textbf{which type of } immersed boundary method was chosen to project solid bodies to Eulerian mesh. Fluid simulation was considered to be a mesh-based or mesh-less simulation method. Although mesh-less methods are rising its popularity due to mass conservancy, when solid particles are included, it does not save the same advantages making the approach more cost expansive and suffering from issues with numerical stability and accuracy, particularly near boundaries. This limitation led to the choice of the mesh-biased Volume of the Fluid method, which is widely used in multiphase flow simulation areas.
+
+Mesh-base methods for multiphase flow simulation  have a long history of development and use, making them well-understood with extensive literature and robust software support. Finite Volume Method known for their accuracy in representing complex geometries, especially near boundaries. 
+
+To simulate multiphase flow Volume of Fluid method was chosen. This choice of raised a question about a technique for resolving free surface. Considering stability of numerical scheme in the chosen open-source programming library OpenFOAM where MULES scheme was initially available. Due to known disadvantages of MULES scheme for better numerical stability, isoAdvector was incorporated into the developed solver.
+
 In contrast to standard unresolved coupling methods, our advanced resolved coupling approach offers a meso-scale view of fluid flow in porous media without relying on empirical drag-force models. Through a series of validation tests and case studies, we've examined various scenarios, including single and two-phase fluids and interactions with both spherical and non-spherical particles.
+
+For verification and validation purposes we run grid convergence analysis with different mesh resolution and for different time step. Solutions was compared with already existing results from numerical studies \cite{nan2023high}. Then to test free surface reconstruction algorithm we tested falling sphere into water with air-fluid-solid interaction and compared results with \cite{pathak20163d}, results showed good agreement. As a last step we run falling into fluid multiplespherical bodies experiment, which showed stability of the scheme during fluid-solid interaction.
 
 \textbf{Key Findings}:
 \begin{itemize}
-    \item Our enhanced resolved coupling solver is validated for two-phase fluids. Tests involving a single settling sphere indicate that the dynamic fluid force on the particle aligns well with experimental data for Reynolds numbers ranging from 0.5 to 300. The model also effectively captures the influence of the air-water interface on particle settling.
-\item For particles of complex shapes, a multi-sphere model is employed. Validation tests, including clumped particle settling and drafting-kissing-tumbling simulations, confirm the solver's ability to model fluid interactions with clumped particles accurately.
-\item The solver also excels in modeling non-spherical particles, as evidenced by disk-settling cases. The simulated patterns closely match experimental observations.
-\item Preliminary simulations of wave impact on rock piles show the model's potential in coastal engineering applications. The model successfully captures various phenomena, such as air-water exchange and seepage within the rock pile, and offers detailed insights into fluid and inter-particle forces, aiding our understanding of granular system stability under wave impact.
+    \item Our enhanced resolved coupling solver is validated for two-phase fluids. Tests involving a single settling sphere indicate that the dynamic fluid force on the particle aligns well with simulation data. The model also effectively captures the influence of the air-water interface on particle settling.
+    \item For particles of complex shapes, a multi-sphere model is employed. Validation tests, including clumped particle settling and drafting-kissing-tumbling simulations, confirm the solver's ability to model fluid interactions with clumped particles accurately.
+    \item The solver also excels in modeling non-spherical particles, as evidenced by particle settling cases in a different scenarios.
+    \item Mesh decomposition affect the process of simulation for single sphere. As well as the coupling approach is affected by the exchange time between solvers for DEM and CFD parts.
+    \item Preliminary simulations of wave impact on rock piles show the model's potential in coastal engineering applications. The model successfully captures various phenomena, such as air-water exchange and seepage within the rock pile, and offers detailed insights into fluid and inter-particle forces, aiding our understanding of granular system stability under wave impact.
 \end{itemize}
 
 \textbf{Future Directions}:
-Despite its successes, the model has limitations. Computational efficiency is a concern due to the need for small computational cells. While parallel computing helps, dynamic mesh refinement could further improve efficiency. Additionally, the current study is limited to Reynolds numbers up to several hundred. Future work will explore the model's applicability to high Reynolds number scenarios and extend it to realistic coastal engineering problems like embankment erosion and protection.
 
-%\lipsum[1]
+Despite its successes, the model has limitations. Computational efficiency is a concern due to the need for small computational cells. While parallel computing helps to speed up computational time, it could affect the simulation results, as was shown in a falling sphere example. To reduce computational time dynamic mesh refinement could further improve efficiency.
+Method for projection of solid bodies to CFD mesh could also be improved to define solid bodies better. Also for computation of solid body interaction, additional interaction models could be developed since in current study only Hertz contact model applied. Another methods for free surface reconstruction methods could be used as well, for better numerical stability.
 
-%\section{A section}
-%\lipsum[10]
+Additionally, the current study is limited to Reynolds numbers up to several hundred. Future work could explore the model's applicability to high Reynolds number scenarios. The model as well could be extended realistic coastal engineering problems like embankment erosion and protection with different contact forces for solid body interactions.
 
-%\subsection{A subsection}
-%\lipsum[9]
-
-%\subsubsection{A subsubsection}
-%\lipsum[11]
-
-
+Nevertheless, despite the problem's complexity and the numerous challenges encountered as unavailability ready-made solution and making our research accessible to others. The results we have achieved are promising due to using more efficient than in house OpenFOAM approach for free surface reconstruction. The future developments hold significant potential.
