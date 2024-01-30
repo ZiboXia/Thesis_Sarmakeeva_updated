@@ -1,14 +1,22 @@
 \chapter{Conclusion} \label{chap:conclusion}
 \subsection{Conclusion}
+Landslides are responsive for thousands deaths every year. With escalating frequency and severity of this events and progressive global warming landslides are ongoing concern. This research provides a numerical tool that could help prediction of landslide process, involving complex interaction with heterogeneous granular particles, air and water, which is usually the case in coastal areas. 
+
+This work examine existing algorithms for presented problem reviewing and considering many different approaches for each part of simulation process. First of all was decided that the most efficient method for this type of the problem could be solved with Fluid Structure Interaction (FSI) method which raised the question for the way of coupling. The closest to real world problem is two-way coupling where two different methods for solid and fluid part exchange data each time step.
+
+Then approach for two-way coupling was considered. The \textbf{which type of } immersed boundary method was chosen to project solid bodies to eulerian mesh.
+
 In contrast to standard unresolved coupling methods, our advanced resolved coupling approach offers a meso-scale view of fluid flow in porous media without relying on empirical drag-force models. Through a series of validation tests and case studies, we've examined various scenarios, including single and two-phase fluids and interactions with both spherical and non-spherical particles.
 
 \textbf{Key Findings}:
 \begin{itemize}
-    \item Our enhanced resolved coupling solver is validated for two-phase fluids. Tests involving a single settling sphere indicate that the dynamic fluid force on the particle aligns well with experimental data for Reynolds numbers ranging from 0.5 to 300. The model also effectively captures the influence of the air-water interface on particle settling.
+    \item Our enhanced resolved coupling solver is validated for two-phase fluids. Tests involving a single settling sphere indicate that the dynamic fluid force on the particle aligns well with simulation data. The model also effectively captures the influence of the air-water interface on particle settling.
 \item For particles of complex shapes, a multi-sphere model is employed. Validation tests, including clumped particle settling and drafting-kissing-tumbling simulations, confirm the solver's ability to model fluid interactions with clumped particles accurately.
-\item The solver also excels in modeling non-spherical particles, as evidenced by disk-settling cases. The simulated patterns closely match experimental observations.
+\item The solver also excels in modeling non-spherical particles, as evidenced by particle settling cases.
+
 \item Preliminary simulations of wave impact on rock piles show the model's potential in coastal engineering applications. The model successfully captures various phenomena, such as air-water exchange and seepage within the rock pile, and offers detailed insights into fluid and inter-particle forces, aiding our understanding of granular system stability under wave impact.
 \end{itemize}
 
 \textbf{Future Directions}:
-Despite its successes, the model has limitations. Computational efficiency is a concern due to the need for small computational cells. While parallel computing helps, dynamic mesh refinement could further improve efficiency. Additionally, the current study is limited to Reynolds numbers up to several hundred. Future work will explore the model's applicability to high Reynolds number scenarios and extend it to realistic coastal engineering problems like embankment erosion and protection.
+
+Despite its successes, the model has limitations. Computational efficiency is a concern due to the need for small computational cells. While parallel computing helps to speed up computational time, it could affect the simulation results, as was shown in a falling sphere example. To reduce computational time dynamic mesh refinement could further improve efficiency. Additionally, the current study is limited to Reynolds numbers up to several hundred. Future work will explore the model's applicability to high Reynolds number scenarios and extend it to realistic coastal engineering problems like embankment erosion and protection.
