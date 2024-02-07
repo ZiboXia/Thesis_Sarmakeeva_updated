@@ -1,101 +1,104 @@
 \chapter{Background and Methods} \label{chap:lit_rev}
 
-As discussed in the previous chapter, such a complicated process as landslide simulation could be solved as a Fluid Structure Interaction (FSI) problem. It is well known in the CFD field, attacking researchers and scientists with different approaches. The main criteria and difficulty for the problem we consider in the current thesis are that we are solving a two-way coupling simulation \cite{benra2011comparison}. That means that simulations from the fluid part affect simulation from the solid part and vice versa, and we need to consider the best way to communicate between these two parts.
-
-First, we describe formulation to solve fluid equations and free surface reconstruction, then the numerical method for its approximated solution. Then, consider the immersed boundary and discrete element method with the contact model.
+As discussed in the previous chapter, we will solve a complicated process such as a landslide simulation as a Fluid Structure Interaction (FSI) problem. It is well known in the CFD field, attacking researchers and scientists with different approaches. The main criteria and difficulty for the problem we consider in the current thesis are that we are solving a two-way coupling simulation \cite{benra2011comparison}. That means that simulations from the fluid part affect simulation from the solid part and vice versa, and we need to consider the best way to communicate between these two parts. We use the geometrical Volume of Fluid approach for coupling based on the Immersed Boundary Method for free surface reconstruction. For solid particle simulation, the Discrete Element Method allows multispherical bodies as arbitrarily shaped bodies.
 
 We will start with Navier-Stokes system of equation for incompressible fluid which consist of momentum and continuity equation:
 
 \begin{equation}\label{NS_methods}
-\frac{\partial(\rho \mathbf{u})}{\partial t}+\nabla \cdot(\rho \mathbf{u u})=-\nabla p+\nabla \cdot \boldsymbol{\mu}+\rho \mathbf{g},
+\frac{\partial(\rho \mathbf{u})}{\partial t}+\nabla \cdot(\rho \mathbf{u u})=-\nabla p+\nabla \cdot \boldsymbol{\tau}+\rho \mathbf{g},
 \end{equation}
 \begin{equation}
-\nabla \cdot \mathbf{u}=0,
+\nabla \cdot \mathbf{u}=0.
 \end{equation}
-where $\mathbf{u}$ is the velocity vector field, $\rho$ is the fluid density, $p$ - the pressure, $\mu$ is the viscosity and $\mathbf{g}$ gravity force.
+where $\mathbf{u}$ is the velocity vector field, $\rho$ is the fluid density, $p$ - the pressure, $\tau$ is the stress tensor and $\mathbf{g}$ gravity force. Stress tensor could be found as
 
-There is no analytical solution available for Navier Stokes equation; in fact, solution existence and uniqueness have not been proven till these days \cite{klay}. The most common and stable approach for fluid simulation is the finite volume method (FVM) \cite{ferziger2002cfd}, where we use the Eulerian frame of reference to solve momentum and continuum equations as a Navier-Stokes system.
+\begin{equation}
+\boldsymbol{\tau}=\mu\left(\nabla \boldsymbol{u}+\nabla \boldsymbol{u}^T\right)-\frac{2}{3} \mu \boldsymbol{I} \nabla \cdot \boldsymbol{u}
+\end{equation}
+where $\mu$ is fluid dynamic viscosity.
 
-\section{The finite volume method}
-To solve \ref{NS_methods} we need to discretize the solution domain which is in turn give us a computational mesh on which governing equations are subsequently solved. The procedure is consist of two parts: discretisation of time and discretisation of space.
+There is no analytical solution available for Navier Stokes equation; in fact, solution existence and uniqueness have not been proven till these days \cite{klay}. The most common and stable approach for fluid simulation is to solve equations approximately the Finite Volume Method (FVM) \cite{ferziger2002cfd}, where we use the Eulerian frame of reference to solve momentum and continuum equations as a Navier-Stokes system.
+
+\section{The Finite Volume Method}
+To solve system of equations \ref{NS_methods} we need to discretize the solution domain which is in turn give us a computational mesh on which governing equations are subsequently solved. The procedure is consist of two parts: discretisation of time and discretisation of space.
 
 For the space discretisation we use Finite Volume Method (FVM), where the main feature is that domain is subdivided into Control Volumes (which is does not overlap and cover the whole domain).
 \begin{equation}\label{2.2}
-\frac{\partial\phi}{\partial t} +\nabla \cdot(\rho\mathbf{u}\phi) = \nabla \cdot(D \nabla \phi) + \nabla S ,
+\frac{\partial\phi}{\partial t} +\nabla \cdot(\rho\mathbf{u}\phi) = \nabla \cdot(D \nabla \phi) + S ,
 \end{equation}
-where $D$ -  is diffusivity of the $\phi$ and $S$ is the source term. If we will write the equation in integral form as:
+where $D$ -  is diffusivity of the flux $\phi$ and $S$ is the source term. If we will write the equation in integral form as:
 \begin{equation}
-\int_{V_C} \frac{\partial\phi}{\partial t} d V+\int_{V_C} \nabla \cdot(\rho\mathbf{u}\phi) d V = \int_{V_C} \nabla \cdot(D \nabla \phi) d V + \int_{V_C} S d V,
+\frac{\partial\phi}{\partial t}  \int_{V_C} \phi d V+\int_{V_C} \nabla \cdot(\rho\mathbf{u}\phi) d V = \int_{V_C} \nabla \cdot(D \nabla \phi) d V + \int_{V_C} S d V,
 \end{equation}
 where $V_C$ is a fixed control volume $C$ and $S$ its flux over the boundaries. Then applying Gauss theorem to the convective and diffusive term we will get
 \begin{equation}\label{2.3}
 \frac{\partial}{\partial t}\int_{V_C} \phi d V+\int_{S_C} \nabla \cdot(\mathbf{u}\phi) d \mathbf{S} = \int_{S_C} \nabla \cdot(D \nabla \phi) d \mathbf{S} + \int_{V_C} S d V,
 \end{equation}
 where integral over a surface $S_C$ of control volume $C$ integral with normal directed outwards from control volume.
+% can write forward Euler scheme
+
 \subsection{Governing equations and domain discretization}
 Using finite difference approach to propagate in time and replacing $\mathbf{u}$ by an approximation of the Taylor series around the cell centre.
 
-Eqn. \ref{2.3} is semi-discretized form of eqn. \ref{2.2}, in order to solve it we need to approximate each term:
+Eqn. \ref{2.3} is semi-discretized form of eqn. \ref{2.2}, in order to solve it we need to approximate each term \cite{ferziger2002cfd} for the forward Euler scheme:
 
 \begin{equation}
     \frac{\partial}{\partial t}\int_{V_C} \phi d V = \frac{ \rho^{n+1} \phi^{n+1} -  \rho^{n}\phi^{n} }{\Delta t} V_C
 \end{equation}
-for the forward Euler scheme:
-
+The convective term can be approximated by summing up the fluxes $\phi$ across the faces of the control volume as
 \begin{equation}
     \int_{S_C}\nabla \cdot \rho\mathbf{u}_f \phi d \mathbf{S} \approx \sum_f  \rho\mathbf{u}_f \phi_f\cdot \mathbf{S}_f
 \end{equation}
 where $\mathbf{S}_f$ faces of the control volume element $C$ and $\mathbf{u}_{f}$ is interpolated value at the corresponding face.
 Similar procedure applied for diffusive term if we assume that $D$ is a scalar
 \begin{equation}
-    \int_{S_C}\nabla\cdot(D \nabla \phi) d \mathbf{S} \approx \sum_f D (\nabla_f \phi)\cdot{d\mathbf{S}},
+    \int_{S_C}\nabla\cdot(D \nabla \phi) d \mathbf{S} \approx \sum_f D (\nabla_f \phi)\cdot{d\mathbf{S}_f},
 \end{equation}
 where $ \nabla_f \phi$ is the face normal gradient at face $S_C$. The source term as a function of $\phi$ could be integrated over a the control volume as
 \begin{equation}
-\begin{array}{cc}
-     &  S(\phi) = S_p\phi +S_u\\
-     & \int_{V_C} S(\phi) d V  = S_p V_C\phi +S_u V_C
-\end{array}
+  S(\phi) = S_p\phi +S_u
+  \end{equation}
+Following integration over the control volume, this results in:
+  \begin{equation}
+\int_{V_C} S(\phi) d V  = S_p V_C\phi +S_u V_C
 \end{equation}
 where $S_p$ and $S_u$ are source terms.
 %probably
 %where $(\nabla p)_P$ is the pressure gradient at the centre of cell $P$. The pressure is calculated using Rhie-Chow\cite{rhie} interpolation scheme.
 
-
 %\subsection{Equation discretization}
 \subsection{Temporal discretization}
-In order to propagate in time $[t, t+\Delta)$
+In order to propagate in time $[t, t+\Delta)$. The time interval $[t, t+\Delta)$ is divided into a number of time intervals of length $\Delta t$ starting at $t_0$. For these time intervals we will solve equation:
 \begin{equation}\label{2.5}
 \int^{t+\Delta t}_t \left[\frac{\partial}{\partial t}\int_{V_C} \phi d V+\int_{S_C} \nabla \cdot(\rho \mathbf{u}\phi) d \mathbf{S}\right] d t=\int^{t+\Delta t}_t\left[\int_{S_C} \nabla \cdot(D \nabla \phi) d \mathbf{S} + \int_{V_C} S d V\right] d t
 \end{equation}
-
 Assuming that control volume does not change in time we can rewrite \ref{2.5} as a discretized form of transport equation \ref{2.2}. Using an implicit Euler formulation and substituting disrcetized spatial terms we will get:
 
-\begin{equation} \label{NS_discr}
-\frac{\rho^{n+1}\phi^{n+1}_C - \rho\phi^{n}_C}{\Delta t} V_{C}+\sum_{f} \mathbf{S}_{f} \cdot \rho\mathbf{u}_{f}\phi_f =\sum_{f} D_f\left(\mathbf{S}_{f} \nabla_{f} \phi_f^{n+1}\right)+ S_p V_C\phi^{n+1}_C +S_u V_C
+\begin{equation} \label{NS_discr_1}
+\frac{\rho\phi^{n+1}_C - \rho\phi^{n}_C}{\Delta t} V_{C}+\sum_{f} \mathbf{S}_{f} \cdot \rho\mathbf{u}_{f}\phi_f^{n+1} =\sum_{f} D_f\left(\mathbf{S}_{f} \nabla_{f} \phi_f^{n+1}\right)+ S_p V_C\phi^{n+1}_C +S_u V_C
 \end{equation}
 % c- is central flux probably???
-where $\phi^{n+1}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t+\Delta t$, $\phi^{n}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t$, $\mathbf{S}_{f}$ is the area of face $f$, $\rho\mathbf{u}_{f}$ is the interpolated velocity at the face $f$, $\phi_f$ is the interpolated value of $\phi$ at the face $f$, $D_f$ is the diffusivity at the face $f$, $S_p$ and $S_u$ are source terms.
+where $\phi^{n+1}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t+\Delta t$, $\phi^{n}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t$, $\mathbf{S}_{f}$ is the area of face $f$, $\rho\mathbf{u}_{f}$ is the interpolated velocity at the face $f$, $\phi_f$ is the interpolated value of $\phi$ at the face $f$, $D_f$ is the diffusivity at the face $f$, $S_p$ and $S_u$ are source terms. Face values have to be obtained from the neighboring cells, which is why interpolation scheme is play important role in accuracy and stability of the solution.
 
-Face values have to be obtained from the neighboring cells, which is why interpolation scheme is play important role in accuracy and stability of the solution.
+In addition to the forward Euler scheme already discussed, other commonly used methods include the first-order implicit backward Euler and the second-order hybrid Crank-Nicolson schemes \cite{sun2006efficient}.
 
 \subsection{Solving linear system of algebraic equations}
-There are different approaches to get neighboring cell-face values. It could be widely used upwind scheme or it could be higher order scheme.
+There are different approaches to get neighboring cell-face values. It could be widely used upwind scheme \cite{leonard1979stable} or it could be higher order scheme.
 
-If we write \ref{NS_discr} in general form as:
+If we write \ref{NS_discr_1} in general form as:
 \begin{equation}
-a_{c} \phi_{c}^{n+1}+\sum_{N} a_{N} \phi_{N}^{n+1}=b_{c}
+a_{C} \phi_{C}^{n+1}+\sum_{N} a_{N} \phi_{N}^{n+1}=b_{C}
 \end{equation}
-where $N$ denotes of neighboring cells of $c$,  $a_c$ are the diagonal components of the matrix $[A]$ and $a_N$ are the off-diagonal components. This system could be written in a matrix form as:
+where $N$ denotes of neighboring cells of $C$,  $a_C$ are the diagonal components of the matrix $[A]$ and $a_N$ are the off-diagonal components. This system could be written in a matrix form as:
 \begin{equation}
 [A][\phi]=\mathbf{B}
 \end{equation}
-where $[A]$ is the matrix containing the coefficients $a_c$ and $a_N$, $[\phi]$ is a flux values and $\mathbf{B}$ contains the source terms..
+where $[A]$ is the sparse matrix containing the coefficients $a_c$ and $a_N$, $[\phi]$ is a flux values, which is unknown and $\mathbf{B}$ contains the source terms. This system is a set of linear equations which can be solved using a suitable numerical technique. It could be a direct solver or an iterative method. Direct solvers become impractical for large systems due to their operation count scaling with the number of equations, leading to a significant increase in computational effort as the system size grows. On the other hand, iterative methods begin with an initial guess and progressively refine the solution's accuracy with each iteration, based on the equation's tolerance, making them more efficient for large systems. Moreover, the matrix $[A]$ typically has a sparse structure, with non-zero elements primarily along the diagonal and very few non-zero elements elsewhere, further enhancing the suitability of iterative methods for these problems.
 
 \subsection{Solution of the system}\label{p-v-coupling}
-Because the momentum and continuity equation does not have a pressure relation \ref{NS_methods}, there are a couple of common ways to treat this issue \cite{ferziger2002cfd}. The most common are SIMPLE, PISO, and PIMPLE algorithms. This work uses Pressure Implicit Splitting Operator (PISO) \cite{ferziger2002cfd} due to its stability to time advantage. Equation
-\begin{equation}\label{NS_algebraic}
-    a_{P}^{\mathrm{u}} \mathbf{u}_{P}+\sum_{N} a_{N}^{\mathrm{u}} \mathbf{u}_{N}= -\nabla p,
+Because the momentum and continuity equation does not have a pressure relation \ref{NS_methods} and there is no straightforward solution, a couple of common ways exist to treat this issue \cite{ferziger2002cfd}. The most common are SIMPLE, PISO, and PIMPLE algorithms. This work uses Pressure Implicit Splitting Operator (PISO) \cite{ferziger2002cfd} due to its stability to time advantage. Equation \ref{NS_discr_1} is rewritten with the pressure term as
+\begin{equation} \label{NS_algebraic}
+\rho \frac{\mathbf{u}_{\mathbf{f}}{ }^{n+1}-\mathbf{u}_{\mathbf{f}}^{n}}{\Delta t} V_C+\sum_f \mathbf{S}_f \cdot\left(\rho \mathbf{u}_{\mathbf{f}}\right)_f \mathbf{u}_{\mathbf{f}}=\sum_f \mu_f\left(\mathbf{S}_f \nabla_f \mathbf{u}_{\mathbf{f}}\right)-\sum_f \nabla_f\left(p^n\right)
 \end{equation}
 can be solved as a system of linear algebraic equations in two steps on a staggered according to the PISO approach. Usually, the pressure is calculated using the Rhie-Chow\cite{rhie} interpolation scheme. It is done to avoid pressure-velocity decoupling. The process of pressure-velocity coupling could be described in two steps:
 
