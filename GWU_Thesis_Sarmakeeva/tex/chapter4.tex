@@ -1,26 +1,23 @@
 \chapter{Results} \label{chap:results}
 \section{Validation and Verification}
-Validation and Verification (V\&V) are needed to make sure that our code works as we suppose. It is a necessary process in the field of computational simulations. They are essential for ensuring the reliability and accuracy of simulation model. Verification is the process of confirming that a computational model accurately implements the intended mathematical model or theory. It checks that the simulation does what it's supposed to do mathematically and computationally.
-It involves code verification (checking the code's or algorithm's accuracy) and solution verification (ensuring the solution is numerically accurate). Standard practices include checking against analytical solutions, performing grid convergence studies, and conducting code-to-code comparisons.
-Validation is the process of determining how well a computational model represents the real world. It is about assessing the accuracy of the simulation results in capturing the physical phenomena being modeled.
-
-This involves comparing simulation results with experimental or real-world data. It can include sensitivity analyses, uncertainty quantification, and benchmark cases. The aim is to demonstrate that the model can produce sufficiently accurate results for its intended application, ensuring the model's credibility in representing physical reality.
+Validation and Verification (V\&V) are needed to ensure that our code works as we expect. It is a necessary process in the field of computational simulations. They are essential for ensuring the reliability and accuracy of the simulation model. Verification is the process of confirming that a computational model accurately implements the intended mathematical model or theory. It checks that the simulation does what it's supposed to do mathematically and computationally.
+It involves code verification (checking the code's or algorithm's accuracy) and solution verification (ensuring the solution is numerically accurate). Standard practices include checking against analytical solutions, performing grid convergence studies, and conducting code-to-code comparisons. Validation is the process of determining how well a computational model represents the real world. It is about assessing the accuracy of the simulation results in capturing the physical phenomena being modeled. This involves comparing simulation results with experimental or real-world data. It can include sensitivity analyses, uncertainty quantification, and benchmark cases. The aim is to demonstrate that the model can produce sufficiently accurate results for its intended application, ensuring the model's credibility in representing physical reality.
 
 For complex simulations, such as turbulent flows or multi-physics problems, V\&V can be challenging due to the complexity of the phenomena and the need for exact analytical solutions.
 
 We conducted three experiments to confirm that the implemented solver operates as expected:
 \begin{itemize}
-    \item \textbf{A falling sphere example, 1 phase}. Experiment for one phase and one solid body, in our case it is sphere. 
-    \item \textbf{A bouncing sphere example, water-air}. Experiment with two phases and one solid body. Density of the body smaller than one of the phase which make the body bounce and do not sink.
-    \item \textbf{A falling multi-spherical body}. This will show that multi-spherical body in the shape of sphere act the same way as a simple sphere.
+    \item \textbf{A falling sphere example, 1 phase}. Experiment with one phase and one solid body; in our case, it is a sphere. 
+    \item \textbf{A bouncing sphere example, water-air}. Experiment with two phases and one solid body. The density of the body is smaller than one of the phases, which makes the body bounce and not sink.
+    \item \textbf{A falling multi-spherical body}. This will show that a multispherical body in the shape of a sphere acts the same way as a simple sphere.
 \end{itemize}
 
 \subsection{A falling sphere example, 1 phase}
-Based on the plan of initial validation of the created numerical model. We conducted a comparison between a one phase falling sphere simulation and the results presented in \cite{nan2023high}. The simulation utilized parameters for both the fluid and particle, which are provided in the {Table \ref{table1-chap4}}. Same simulation results provided in work \cite{nan2023high}, while Figure \ref{fig:1ph_exp_me} showcases the results work of the current solver. Based on a visual analysis, it is evident that the velocity of the fluid field around both particles is nearly identical. 
+Based on the plan of initial validation of the created numerical model of a single falling sphere, we conducted a comparison between a one-phase falling sphere simulation and the results presented in Nan et al. (2023) \cite{nan2023high}. The simulation utilized parameters for both the fluid and particle, which are provided in {Table \ref{table1-chap4_1}}. The same simulation results are provided in the work by Nan et al. (2023) \cite{nan2023high}, while Figure \ref{fig:1ph_exp_me} showcases the results with the current solver. Based on a velocity field, it is evident that the fluid field around both particles is nearly identical. But visual comparison is not enough, and we also compared velocity values and trajectory changes in $z$-direction. Results are shown in Figure \ref{fig:trajectory_1ph}.
 
 \begin{table}[H]
     \centering
-    \caption{Simulation Parameters} \label{table1-chap4}
+    \caption{Simulation Parameters} \label{table1-chap4_1}
     \begin{tabular}{llr}
         \toprule
         \hline
@@ -52,12 +49,12 @@ Based on the plan of initial validation of the created numerical model. We condu
     \label{fig:1ph_exp_me}
 \end{figure}
 
-More details are shown in Figure \ref{fig:trajectory_1ph}. The graph illustrates the trajectory and velocity comparison of a falling sphere in a one-phase fluid within our CFD-DEM simulation solver against the results published by Nan et al. (2023) \cite{nan2023high}. Both datasets present the time evolution of the sphere's $z$-direction movement and corresponding velocity. The plots are in good agreement with our simulation data (indicated by the orange dots) and the benchmark results from Nan et al. (2023)\cite{nan2023high} (represented by the solid black line) across the entirety of the simulated timeframe. This consistency in both position and velocity profiles supports solvers' ability to replicate particle motion dynamics within a fluid accurately. Minor variations observed are within acceptable ranges and may be attributed to the inherent discretization differences between the two simulation approaches. The coherence of the data underscores the reliability of our CFD-DEM simulation parameters and captures the essential physics of particle-fluid interaction.
+More details are shown in Figure \ref{fig:trajectory_1ph}. The graph illustrates the trajectory and velocity comparison of a falling sphere in a one-phase fluid within our CFD-DEM simulation solver against the results published by Nan et al. (2023) \cite{nan2023high}. Both datasets present the time evolution of the sphere's $z$-direction movement and corresponding velocity. The plots are in good agreement with our simulation data (indicated by the orange dots) and the benchmark results from Nan et al. (2023)\cite{nan2023high} (represented by the solid black line) across the entirety of the simulated timeframe from 0 to 0.3 sec. This consistency in both position and velocity profiles supports our solvers' ability to capture particle motion dynamics within a fluid accurately. The variations observed are within acceptable ranges. The difference in the velocity field from 0 to 0.1 second may be attributed to the inherent discretization differences between the two simulation approaches. The obtained data underscores the reliability of our CFD-DEM simulation and captures the essential physics of particle-fluid interaction.
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=13cm]{GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_cells_dt_0_0005_simulation.png}
-    \caption{Falling sphere in 1 phase fluid 1) comparison in z-direction 2) velocity of the particle}
+    \caption{Falling sphere in 1 phase fluid 1) velocity of the particle 2) comparison in z-direction}
     \label{fig:trajectory_1ph}
 \end{figure}
 
@@ -65,57 +62,77 @@ More details are shown in Figure \ref{fig:trajectory_1ph}. The graph illustrates
 
 \subsection{Grid convergence analysis.}
 
-According to Roache's definition of code verification \cite{roache1998verification}, to confirm the ability to accurately solve the set of governing equations. A main strategy for validating the code is to convey a grid convergence study, which involves executing multiple simulations on successive finer grids. The discretization error is expected to approach zero asymptotically as the grid refined. The major point of interest in this context is the approximation order derived from the numerical method. For instance, if a second-order accurate method is used, it is reasonable to anticipate second-order convergence. However in most of the cases the second-order accuracy from spatical discretization can not be reached as in paper \cite{taira2007immersed}.
+According to Roache's definition of code verification \cite{roache1998verification}, it means confirming the ability to solve the set of governing equations accurately. A main strategy for verifying the code is to conduct a grid convergence study, which involves executing multiple simulations on successive finer grids. The discretization error is expected to approach zero asymptotically as the grid is refined. The central point of interest in this context is the approximation order derived from the numerical method. For instance, if a second-order accurate method is used, we anticipate observing second-order convergence. However, in most cases, the second-order accuracy from spatial discretization can not be reached for two-way coupling problems, as stated in the paper Taira et al. (2007)\cite{taira2007immersed}.
 
-If we knew the exact solution for the falling sphere simulation, we could apply Richardson extrapolation, which would be the best possible solution verification to measure discretization error.
+Because we do not know the exact solution for the falling sphere simulation, we could apply Richardson extrapolation, which would be the best possible solution verification to measure discretization error.
 
-When the exact solution is not available commonly used evaluation metrics \cite{oberkampf} is the $L_2$ er Euclidean norm, which is the root mean square of the error and for uniform mesh could be found as:
-\begin{equation}
-\left\|u-u_{\mathrm{ref}}\right\|_2=\left(\frac{1}{N} \sum_{n=1}^N\left|u_n-u_{\mathrm{ref}, n}\right|^2\right)^{1 / 2}
-\end{equation}
+The basic concept of  Richardson extrapolation was introduced in his work Richardson (1911) \cite{richardson1911}. If the formal rate of convergence of a discretization method with mesh refinement is unknown, but discrete solutions on two systematically refined meshes are available, then this information could be used to estimate the exact solution of a mathematical model. It could be used either to correct the fine mesh solution or to provide a discretization error estimate for it. Although Richardson initially developed the extrapolation approach for locally approximating the dependent variables within the mathematical model's domain, it can be conveniently extended to estimate any system response quantity. However, this extension comes with an additional prerequisite – the numerical approximations (such as integration, differentiation, etc.) employed to calculate the system response quantity must possess at least the same order of accuracy as the underlying discrete solutions.
 
-Another metric which we could use is $L_{inf}$ infinity norm, which measure as the maximum of absolute error over the entire domain. It could be calculated as:
+The process of generalized Richardson extrapolation is described in a book Oberkampf et al. \cite{oberkampf}. The generalized Richardson $\bar{f}$ could be found as:
 
 \begin{equation}
-\left\|u-u_{\text {ref }}\right\|_{\infty}=\max \left|u_n-u_{\text {ref }, n}\right|, \quad n=1 \text { to } N
+\bar{f}=f_h+\frac{f_h-f_{r h}}{r^p-1}
 \end{equation}
-
+where $h$ is representative coarse mesh size and $rh$ is fine mesh. $f_h$ and $f_{rh}$ numerical solutions with mesh spacing $rh$, $p$ is the order of convergence. The grid refinement factor $r$ is the ratio of the coarse to fine grid spacing calculated as:
+\begin{equation}
+r=\frac{h_{\text {coarse }}}{h_{\text {fine }}}>1
+\end{equation}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=16cm, height = 10cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/l2_norm.png}
-    \caption{$L2$ norm of the veolcity error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
-    \label{fig:l2}
+    \includegraphics[width=16cm, height = 10cm]{GWU_Thesis_Sarmakeeva/Images/chap3/richardson_extrapoltation.png}
+    \caption{The velocity relative error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
+   \label{fig:l2}
 \end{figure}
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=16cm, height = 10cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/l_inf.png }
-    \caption{$L_{\infty}$ norm of the velocity error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
-    \label{fig:l_inf}
-\end{figure}
+By applying Richardson extrapolation, we found that the relative error for the finest mesh used in our simulations is on the order of magnitude $10^{-6}$. In engineering applications, the acceptable level of error is often determined by engineering judgment, considering factors such as the problem's complexity, the intended use of the solution, and the potential consequences of inaccuracies. Based on our understanding of the problem and the requirements for the solution, we have determined that a relative error of $10^{-6}$ is satisfactory for our purposes.
+%When the exact solution is available, commonly used evaluation metric  is the $L_2$ er Euclidean norm, which is the root mean square of the error and for uniform mesh could be found as:
+%\begin{equation}
+%\left\|u-u_{\mathrm{ref}}\right\|_2=\left(\frac{1}{N} \sum_{n=1}^N\left|u_n-%u_{\mathrm{ref}, n}\right|^2\right)^{1 / 2}
+%\end{equation}
 
-The graphs provided on Fugure \ref{fig:l_inf}, and Fugure \ref{fig:l_2} represent the grid convergence study for a falling sphere simulation, showing how the average norm of velocity changes with the number of cells in the computational grid. 
+%Another metric that we could use is $L_{\infty}$ infinity norm, which measures the maximum absolute error over the entire domain. It could be calculated as:
 
-The Fugure \ref{fig:l_inf} displays the $L_{\infty}$ norm of velocity error against the number of cells. The trend indicates that as the number of cells increases, the maximum velocity magnitude across the domain initially decreases sharply and then levels off, suggesting that a grid-independent solution is being approached. The plateau in the curve suggests that further refinement of the grid does not significantly change the maximum velocity, indicating that convergence has been reached for this norm.
+%\begin{equation}
+%\left\|u-u_{\text {ref }}\right\|_{\infty}=\max \left|u_n-u_{\text {ref }, n}\right|, \quad n=1 \text { to } N
+%\end{equation}
 
-The second graph Figure \ref{fig:l2} shows the $L2$ norm of velocity error against the number of cells. Similar to the $L_{\infty}$ norm results, the graph shows a decrease in the average $L2$ norm as the number of cells increases, with the rate of decrease diminishing as the number of cells becomes large. This suggests that the solution is approaching grid independence, where further refinement does not lead to significant changes in the overall velocity field as perceived by the $L2$ norm.
 
+%\begin{figure}[!ht]
+%    \centering
+%    \includegraphics[width=16cm, height = 10cm]{GWU_Thesis_Sarmakeeva/Images/chap3/l2_norm.png}
+%    \caption{$L_2$ norm of the velocity error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
+ %   \label{fig:l2}
+%\end{figure}
 
-Implemented algorithm have different time communication between CFD and DEM solvers. Some-times to save computational resources it is common practice to set up communication every $5$ or $10$ computational steps, that mean that time-step would be for DEM part $10$ time smaller than for OpenFOAM solver.
+%\begin{figure}[!ht]
+ %   \centering
+ %   \includegraphics[width=16cm, height = 10cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/l_inf.png }
+%    \caption{$L_{\infty}$ norm of the velocity error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
+ %   \label{fig:l_inf}
+%\end{figure}
 
-To better understand how these parameters could affect the computations we completed analysis running for different setting for communication of coupled parts. Results provided on the Figure \ref{fig:communication} below.
+%The graphs provided on Figure \ref{fig:l2}, and Figure \ref{fig:l_inf} represent the grid convergence study for a falling sphere simulation, showing how the average norm of velocity changes with the number of cells in the computational grid. 
+
+%Figure \ref{fig:l_inf} displays the $L_{\infty}$ norm of velocity error against the number of cells. The trend indicates that as the number of cells increases, the maximum velocity magnitude across the domain initially decreases sharply and then levels off, suggesting that a grid-independent solution is being approached. The plateau in the curve suggests that further refinement of the grid does not significantly change the maximum velocity, indicating that convergence has been reached for this norm.
+
+%The second graph, Figure \ref{fig:l2}, shows the $L_2$ norm of velocity error against the number of cells. Similar to the $L_{\infty}$ norm results, the graph shows a decrease in the average $L_2$ norm as the number of cells increases, with the rate of decrease diminishing as the number of cells becomes large. This suggests that the solution is approaching grid independence, where further refinement does not lead to significant changes in the overall velocity field as perceived by the $L_2$ norm.
+Further insights from a grid-convergence study reveal an improvement in scheme accuracy with an increased cell count, underscoring the importance of grid refinement in simulation accuracy. The findings suggest that careful consideration of the exchange time step frequency and grid resolution is important for optimizing solver performance and ensuring the reliability of the simulation results.
+
+The implemented algorithm has different communication times as part of two-way coupling process. For example, we would do 10 iterations of DEM algorithm and then send force and positions of particles sent to CFD. It could be useful to save computational resources. The common practice to set up communication between DEM and CFD solutions every $5$th or $10$th computational step, which means that the time-step for the DEM part $10$ time would be smaller than for the OpenFOAM solver.
+
+To better understand how these parameters could affect the computations, we completed an analysis  running falling sphere simulation for different settings of different communication times of coupled parts. Results are provided in Figure \ref{fig:communication} below.
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=13cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_diff_exchange_time.png}
-   \caption{Different setting for communication between CFD and DEM parts for every 10, 8, 6, 4, 2, 1 exchange time step  $ts$ 1) velocity component 2) change in z-direction.}
+   \caption{Different settings for communication between CFD and DEM parts for every 10, 8, 6, 4, 2, 1 exchange time step  $ts$ 1) velocity component 2) change in z-direction .}
     \label{fig:communication}
 \end{figure}
 
-On the figure \ref{fig:communication} shown obtained data for the problem of a 3D falling sphere with CFDEMcoupling. It is implemented solver for the coupling force model, where $ts$ is the time step for data exchange. CFD and DEM solvers are communicating every 10th, 8th, 6th, 4th, 2nd, and each computational step correspondingly. The Figure \ref{fig:communication} shows that different exchange steps affect sphere's velocity and position, highlighting the critical role of exchange time step frequency in the numerical stability of the coupled scheme. Notably, a discrepancy in velocity is observed when comparing exchange steps $1$ and $2$. 
+Figure \ref{fig:communication} shows the data for the problem of a 3D falling sphere with CFDEMcoupling. It is implemented as a solver for the coupling DEM and CFD part incorporating force model. Which means how we exchange and apply forces to each part of simulation. On Figure \ref{fig:communication} $ts$ is the time step for data exchange. CFD and DEM solvers communicate every 10th, 8th, 6th, 4th, 2nd, and each computational step correspondingly. Figure \ref{fig:communication} shows that different exchange steps affect the sphere's velocity and position, highlighting the critical role of exchange time step frequency in the numerical stability of the coupled scheme. Notably, a discrepancy in velocity is observed when comparing exchange steps $1$ and $2$. The velocity results that we got for exchange time $1$ are similar to velocity from the work of Nan et al. (2023)\cite{nan2023high}, while velocity for other exchange time steps is significantly overestimated.
 
-Further insights from a grid convergence study reveal an improvement in scheme stability with an increased cell count, underscoring the importance of grid refinement in simulation accuracy. The findings suggest that careful consideration of the exchange time step frequency and grid resolution is important for optimizing solver performance and ensuring the reliability of the simulation results.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_cells_dt_different.png }
@@ -123,16 +140,16 @@ Further insights from a grid convergence study reveal an improvement in scheme s
     \label{fig:diff_dt}
 \end{figure}
 
-Another simulation was done, were computations of 3D falling sphere for the different time step. Results for $\Delta t = 0.00001$, $0.00005$ and $0.0001$ provided on the Figure \ref{fig:diff_dt}. For this experiment we used mesh for 192000 computational cells.
+Another simulation done where there were computations of 3D falling spheres for the different time steps. Results for $\Delta t = 0.00001$, $0.00005$ and $0.0005$ are shown on Figure \ref{fig:diff_dt}. For this experiment, we used a mesh with 192000 computational cells.
 \begin{figure}[H]
     \centering
     \includegraphics[width=14cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_diff_cells_number.png}
-    \caption{ Different setting for $\Delta x$: 1) velocity component 2) change in z-direction.}
+    \caption{A different setting for $\Delta x$: 1) velocity component 2) change in the z-direction.}
     \label{fig:cell_num}
 \end{figure}
-As we can see from the results for the velocity change $\Delta t = 0.00005$ is unstable, but for $\Delta t = 0.00001$, and $0.0001$ they are stable showing significant error. Then we run experiments for different number of computational cells.
+As we can see from the results for the velocity change, $\Delta t = 0.0005$ is oscillate, but for $\Delta t = 0.00001$ and $0.00005$ oscillations insignificant, however there is overestimation in velocity for $\Delta t = 0.00005$. For the smallest time step $\Delta t = 0.00001$ we see that the maximum velocity value close to $0.6$ m/s which is correspond results provided on Figure~\ref{fig:trajectory_1ph}. Then, we run experiments for different numbers of computational cells.
 
-To calculate spatial error we run simulation consistently for different number of computational cells, parameters of the meshes provided in Table \ref{table1-chap4}:
+To calculate spatial error, we run simulation with refinement factor $1.5$ for different numbers of computational cells, parameters of the meshes provided in Table \ref{table1-chap4}:
 
 \begin{table}[H]
     \centering
@@ -153,14 +170,22 @@ To calculate spatial error we run simulation consistently for different number o
      \end{tabular}
 \end{table}
 
-In Figure \ref{fig:cell_num}, we observe distinct behaviors in the simulation results that correlate with the number of computational cells used in the mesh. The results of the coarser meshes with 24000 and 192000 cells exhibit instability, as evidenced by the divergence in the velocity and position curves. Conversely, the mesh with 81,000 cells yields more stable outcomes, yet there remains a notable deviation from the results obtained with higher-resolution meshes, indicating potential inaccuracies. This difference could be a consequence of the mapping algorithm used for calculations.
+In Figure \ref{fig:cell_num}, we observe the simulation results that correlate with the number of computational cells used in the mesh. The results of the coarser meshes with 24000 and 192000 cells exhibit oscillations, as evidenced by the overestimation in the velocity data and position of change in $z$-direction underestimates. For 192000 cells results are close to the experiment Nan et al. (2023) \cite{nan2023high}, but we still can observe oscillations in the velocity results Conversely, the mesh with 81,000 cells yields more stable outcomes, yet there remains a notable deviation from the results obtained with higher-resolution meshes, indicating potential inaccuracies. This difference could be a consequence of the mapping algorithm used for calculations as discussed in work Nan et al. (2023) \cite{nan2023high}, because they also got observed oscillations in results.
 
-As the mesh is refined to 648,000 and 1,536,000 cells, the simulation results demonstrate improved stability and a trend toward convergence. The close agreement between these two higher-resolution meshes suggests that the solution is approaching a mesh-independent state, which indicates numerical convergence. This behavior implies that the discrepancies observed in coarser meshes may result from the mesh resolution and its interaction with the mapping algorithm. 
+%As the mesh is refined to 648,000 and 1,536,000 cells, the simulation results demonstrate improved stability and a trend toward convergence. The close agreement between these two higher-resolution meshes suggests that the solution is approaching a mesh-independent state, which indicates numerical convergence. This behavior implies that the discrepancies observed in coarser meshes may result from the mesh resolution and its interaction with the mapping algorithm. 
 
+As the mesh is refined from coarser resolutions to 648,000 and 1,536,000 cells, the simulation results exhibit improved accuracy and a trend toward convergence. The close agreement between the solutions obtained on these two higher-resolution meshes suggests that the numerical solution is approaching an asymptotic state, where further mesh refinement would not significantly alter the results. This asymptotic behavior, known as a mesh-independent solution, is a indicator of numerical convergence.
 
-\section{The two phase experiments.}
+Numerical convergence is a critical aspect of computational fluid dynamics (CFD) simulations, as it demonstrates that the discretized equations and numerical methods employed in the solver are capable of accurately representing the underlying governing equations and physics of the problem. When a mesh-independent solution is achieved, it implies that the numerical errors introduced by the discretization process have been minimized to an acceptable level, and the solution can be considered a reliable approximation of the true, continuum solution.
 
-In a subsequent validation phase, we extended the simulation to include a multi-spherical body designed to mimic the shape and dimensions of the single falling sphere. This experiment assessed the solver's capability to approximate complex particle shapes while maintaining the same fluid and particle parameters outlined in Table \ref{table1-chap4}.
+The observation that discrepancies in the solutions are more pronounced on coarser meshes, while the higher-resolution meshes exhibit close agreement, suggests that the mesh resolution plays a crucial role in capturing the flow features accurately. This behavior may result from the interaction between the mesh resolution and the mapping algorithm used to discretize the governing equations onto the computational CFD mesh. 
+
+By systematically refining the mesh and observing the convergence of the solution, we can establish confidence in the numerical results and quantify the discretization errors associated with a given mesh resolution. This process is often referred to as a mesh convergence study and is an essential step in verifying the numerical accuracy and reliability of CFD simulations.
+
+\section{The two-phase experiments.}
+
+In a subsequent validation phase, we run two experiments. One is a sphere falling into the water and bouncing on the free surface, where results are compared with the work of Pathak et al.~ (2016) \cite{pathak20163d}. We test this experiment to compare and see that simulation is converging and gives similar results as in the work Pathak et al. (2016) \cite{pathak20163d}, which is compared with the physical experiment.
+The second simulation extended, including a multi-spherical body that consists of 2 spheres. This experiment assessed the solver's capability to interact with the free surface with complex particle shapes while maintaining the same fluid and particle parameters outlined in Table \ref{table3-chap4}.
 
 \begin{table}[H]
     \centering
@@ -184,30 +209,37 @@ In a subsequent validation phase, we extended the simulation to include a multi-
         \bottomrule
      \end{tabular}
 \end{table}
-Figures \ref{fig:two-phase_sphere} and \ref{fig:IB} present the simulation outcomes for the multi-spherical body from the published work and our solver, respectively. Results shows good agreement. For a more quantitative insight, Figure \ref{fig:2ph_exp} displays the trajectory in the $z$-direction of the falling sphere.
+Figures \ref{fig:two-phase_sphere} and \ref{fig:IB} present the simulation outcomes for a sphere from the published work Pathak et al. (2016) \cite{pathak20163d} and our solver, respectively. Results show good agreement, for the maximum velocity the difference is less than 6\% and for the average velocity the difference is around 25\%. For a more quantitative insight, Figure \ref{fig:2ph_exp} displays the trajectory in the $z$-direction of the falling sphere.
 
 \subsection{A bouncing sphere example, water-air}
-The initial experiment comes from the work \cite{beck1987transient}. Where they using the tank parameters: length: 109.7 m, width 6.7 m, depth 3.2 m. The sphere radius $r= 0.254$ m , height $z = r/10$ above the free surface. The sphere density 500 kg/m .
+The initial experiment comes from the work Beck et al. (1897) \cite{beck1987transient} where they use the tank parameters: length: 109.7 m, width 6.7 m, depth 3.2 m. The sphere radius $r= 0.254$ m, height $z = r/10$ above the free surface. The sphere density is 500 kg/m.
 
-First, we tried to make regular mesh similar to Pathak etc.\cite{pathak20163d} work. For the domain size from Pathak etc.\cite{pathak20163d} we followed formula:
+First, we tried to make a regular mesh similar to the work of Pathak et al. (2016) \cite{pathak20163d} work. For the domain size from Pathak etc.\cite{pathak20163d} we followed formula:
 \begin{equation}
     (length \cdot height \cdot width)  \cdot  r  \cdot  CPR,
 \end{equation}
-where CPR - cell per radius of sphere. To safe computational resources for tank $13\times 6.7 \times 3.4$ $\approx 17$ M cells with CPR $= 10$.
- $\approx 8$ M cells for tank $5\times 5 \times 5$, CPR $= 10$
+where CPR - cell per radius of the sphere. To save computational resources for tank size of $13\times 6.7 \times 3.4$ $\approx 17$ M cells with CPR $= 10$ $\approx 8$ M cells for tank $5\times 5 \times 5$, CPR $= 10$
  $\approx 2.7$ M cells for tank $5\times 5 \times 5$ with mesh refinement to the center, CPR $= 10$
 
-For the lowest mesh resolution results of simulation shown on the figure below \ref{fig:2ph_exp}.
+The lowest mesh resolution results of the simulation are shown in Figure \ref{fig:2ph_exp}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=15cm]{Images/chap3/bouncing_sphere_plot.png}
-    \caption{Bouncing sphere simulation for two-phase fluid from the CFD-DEM simulation}
+    \caption{Bouncing sphere simulation for two-phase fluid from the CFD-DEM simulation.}
     \label{fig:2ph_exp}
     \end{figure}
-The main parameters shown in the Table \ref{table2-chap4}. 
+The main parameters are shown in Table \ref{table2-chap4}. 
 
-Figure \ref{fig:two-phase_sphere} provided a series of time-step snapshots from a CFD-DEM simulation of a sphere interacting with a two-phase fluid, where dark blue is a liquid with the density of water and light blue is a liquid with the density of the air.
+Figure \ref{fig:two-phase_sphere} provides a series of time-step snapshots from a CFD-DEM simulation of a sphere interacting with a two-phase fluid, where dark blue is a liquid with the density of water and light blue is a liquid with the density of the air.
 
+\begin{itemize}
+    \item \textbf{Initial Contact (a - 0.1 sec):} The sphere is shown just above the fluid interface, moving under gravity force in the direction of the water
+    \item \textbf{Entry and Deformation (b - 0.2 sec):} As the sphere impacts the fluid surface, we see the beginning of deformation at the fluid interface, indicating the sphere's entry into the water. The fluid is distorted in response to the sphere's presence, which illustrates the initial splash or the beginning of the sphere's submersion.
+    \item \textbf{Submersion and Displacement (c - 0.4 sec):}The sphere is now submerged, and we can observe the water deforming significantly around the sphere, due to water displacement as the sphere moves downward. The scheme is converging even under significant changes in free surface.
+    \item \textbf{Maximum Penetration (d - 0.7 sec):} This image might represent the sphere at or near its maximum depth, given the substantial fluid displacement.
+    \item \textbf{Upward Motion (e - 0.9 sec):} The sphere is moving upward, indicating that it is buoyant as indicated by the changing flow patterns and the 'tail' of disturbed fluid below it.
+    \item \textbf{Surface Re-contact (f - 1.2 sec):} The sphere has ascended back to the fluid interface, and we can see the water's surface is deformed as the sphere pushes up against it, about to break through the surface again.
+\end{itemize}
 \begin{figure}[H]
     \centering
     \begin{minipage}{.4\textwidth}
@@ -248,37 +280,34 @@ Figure \ref{fig:two-phase_sphere} provided a series of time-step snapshots from 
     \caption{Visualization of sphere bouncing in two-phase fluid from CFD-DEM simulation.}
     \label{fig:two-phase_sphere}
 \end{figure}
-\begin{itemize}
-    \item \textbf{Initial Contact (a - 0.1 sec):} The sphere is shown just above the fluid interface, moving under gravity force in the direction of the water
-    \item \textbf{Entry and Deformation (b - 0.2 sec):}As the sphere impacts the fluid surface, we see the beginning of deformation at the fluid interface, indicating the sphere's entry into the water. The fluid is distorted in response to the sphere's presence, which illustrates the initial splash or the beginning of the sphere's submersion.
-    \item \textbf{Submersion and Displacement (c - 0.4 sec):}The sphere is now submerged, and we can observe the water deforming significantly around the sphere, likely due to the displacement of water as the sphere moves downward. Which shows numerical stability
-    \item \textbf{Maximum Penetration (d - 0.7 sec):}This image might represent the sphere at or near its maximum depth, given the substantial fluid displacement.
-    \item \textbf{Upward Motion (e - 0.9 sec):}The sphere is moving upward, indicating that it is buoyant as indicated by the changing flow patterns and the 'tail' of disturbed fluid below it.
-    \item \textbf{Surface Re-contact (f - 1.2 sec):}The sphere has ascended back to the fluid interface, and we can see the water's surface tension is deformed as the sphere pushes up against it, about to break through the surface again
-\end{itemize}
 
-This simulation is essential to test the numerical stability of the algorithm for surface tension calculation of the numerical scheme, and experiments confirm it.
+
+This simulation is essential to test the numerical accuracy of the algorithm for surface tension calculation of the numerical scheme, and experiments confirm it.
 
  \begin{figure}[!ht]
     \centering
     \includegraphics[width=12cm]{Images/chap3/cavityIB.png}
-    \caption{Falling sphere visualization results. On the right, cavity after falling sphere in the water \cite{schwalbach}.}
+    \caption{Falling sphere visualization and comparison with the experiment \cite{schwalbach}. On the right, cavity after falling sphere in the water \cite{schwalbach}.}
     \label{fig:IB}
 \end{figure}
-Reproducing the physical experiments involving a sphere falling into the water where density of the sphere more than water, as outlined in \cite{schwalbach}, have challenges for numerical comparison. One primary obstacle is that the original paper needs to include the height from which the sphere is dropped. This parameter has a significant impact on the free surface during the simulation and is essential for ensuring the stability of our solver. Despite this, the trajectory of the falling sphere in our simulations aligns well with the physical experiments, suggesting that our results are both stable and comparable. Another study, \cite{shen2022resolved}, also attempts to replicate the original experiment through numerical methods. Again, this paper, in the same way, neglects to specify the height from which the spheres were dropped, making a complete comparison of results problematic.
+Modeling the physical experiments involving a sphere falling into the water where the density of the sphere is more than the water, as outlined in Schwalbach et al. (2014) \cite{schwalbach}, was challenging. One primary obstacle is that the original paper did not to include the height from which the sphere is dropped. This parameter has a significant impact on the free surface during the simulation and is essential for ensuring that the solution will converge. Moreover, the movement of the free surface is dependent on the height at which the sphere being dropped. Despite this, the trajectory of the falling sphere in our simulations aligns well, the trace after the sphere penetrates the water and interacts with the free surface shows a similar fluid behaviour to the physical experiments, suggesting that our results are both stable, the solution converges, and comparable. Another study, \cite{shen2022resolved}, also attempts to replicate the original experiment through numerical methods. Again, this paper, in the same way, neglects to specify the height from which the spheres were dropped, making a complete comparison of results problematic.
 
 \subsubsection{Computational setup}
 
-For the numerical simulation we choose IsoAdvector \cite{roenby2019isoadvector} method for simulation of free surface which is described in a theoretical part. Applying second order Crank–Nicolson method for time differentiation . For interpolation  diffusion and convection terms we used scheme which called \textit{Gauss linear} in OpenFOAM, which is the second-order accurate scheme, the standard finite volume discretization using the Gaussian integration that requires the interpolation from cell centers to face centers. Pressure field tolerance was chosen as $1e-06$. With 3 PISO loops on each time step. The time step we choose $\Delta t = 1e-05$ for the VOF part and $\Delta t = 1e-06$ for the DEM part i.e communication was made every $10$ time steps from the solid body part.
+For the numerical simulation of a sphere falling into water, we employ a two-phase flow model to capture the interaction between the solid sphere and the fluid phase. The Volume of Fluid (VOF) method is used to track the free surface between the air and water phases. Specifically, we incorporated the IsoAdvector \cite{roenby2019isoadvector} scheme, which is a robust and accurate approach for simulating complex free surface flows, as described in the Chapter \ref{chap:intro} and the Chapter \ref{chap:theory}
 
-We carried out the simulations of a high-performance computing system. The key specifications of the system CPU: AMD Ryzen Threadripper PRO 3995WX, 64-Core, 128-Thread, with frequencies ranging from 2200 MHz to 4308.4 MHz. System Architecture: x86\_64, supporting 32-bit and 64-bit operations. Operating System: Linux-based.
+To solve the governing Navier-Stokes equations for the fluid flow, we apply the second-order Crank–Nicolson method for time differentiation. This method offers improved accuracy and stability compared to lower-order time integration schemes, which is crucial for capturing the transient flow dynamics associated with the falling sphere. The convection and diffusion terms in the Navier-Stokes equations are discretized using the \textit{Gausslinear} scheme, a second-order accurate finite volume method that interpolates the solution from cell centers to face centers using Gaussian integration.
+
+The pressure field use tolerance of $10^{-6}$ and three PISO (Pressure Implicit with Splitting of Operators) loops per time step to ensure convergence. For the time step, we choose $\Delta t = 10^{-5}$ for the VOF calculations and $\Delta t = 10^{-6}$ for the Discrete Element Method (DEM) part. The DEM and VOF solvers communicate every ten time steps to solve the two-way coupling between the solid and fluid phases.
+
+We carried out the simulations in a high-performance computing system. The key specifications of the system CPU are AMD Ryzen Threadripper PRO 3995WX, 64-Core, 128-Thread, with frequencies ranging from 2200 MHz to 4308.4 MHz. System Architecture: x86\_64, supporting 32-bit and 64-bit operations. Operating System: Linux-based.
 \section{Multispherical body simulations}
 
 \subsection{Multispherical body interaction with two-phase fluid}
 
-The primary objective of this experiment is to illustrate initial stability and functionality of the developed CFD-DEM code through simulating the interaction of a multi-spherical body, analogous to a previous experiment with a floating sphere in water.
+The primary objective of this experiment is to illustrate the initial accuracy and functionality of the developed CFD-DEM code by simulating the interaction of a multi-spherical body, analogous to a previous experiment with a floating sphere in water Pathak et al.(2016) \cite{pathak20163d}.
 
-The simulation involve es a multi-spherical body consists out of 2 overlapping spheres, positioned at a $0.4$ m height above a fluid with the proprieties of water. The main properties are provided in the Table \ref{table3-chap4} below.
+The simulation involves a multi-spherical body consisting of 2 overlapping spheres positioned at a $0.4$ m height above a fluid with the properties of water. The main properties are provided in Table \ref{table3-chap4} below.
 \begin{table}[H]
     \centering
     \caption{Simulation Parameters} \label{table3-chap4}
@@ -305,7 +334,7 @@ The simulation involve es a multi-spherical body consists out of 2 overlapping s
      \end{tabular}
 \end{table}
 
-The body is released and allowed to fall into the water under gravity forces. The simulation captures the motion of the body and the fluid's response upon impact and during the subsequent settling period. The results of simulation showed on a figure \ref{fig:two-phase exp} below.
+The body is released and allowed to fall into the water under gravity forces. The simulation captures the motion of the body and the fluid's response upon impact and during the subsequent settling period. The results of the simulation are shown in figure \ref{fig:two-phase exp} below.
 
 \begin{figure}[!ht]
   \centering
@@ -317,20 +346,15 @@ The body is released and allowed to fall into the water under gravity forces. Th
   \label{fig:two-phase exp}
 \end{figure}
 
-The results of simulation showed numerical stability of the solver. Another concern was the volume of fluid phases, it changes in the range less than 1\%.
+The results of the simulation showed the numerical stability of the solver. When the fluid undergoes significant changes and spheres fall into the water, the presented numerical scheme converges. This was a significant challenge while we were running the simulation. This is why testing bouncing multispherical bodies interacting with a free surface was an important part of the research. Another concern was the volume of fluid phases; it changes in the range less than 1\%.
 
 \subsection{Multispherical sinking body simulations}
 
-A couple of works use similar approaches recently published for landslide simulations as \cite{nan2023high} and \cite{shen2022resolved}.
+A couple of works use similar approaches recently published for landslide simulations as Nan et al. (2023) \cite{nan2023high} and Shen et al. (2022) \cite{shen2022resolved}.
 Like them, we run the simulations with one multi-spherical body falling into the water and multiple arbitrarily shaped bodies falling under gravity force, interacting with each other and interacting with water.
 
-First, we would consider the falling clump - multispherical body experiment \ref{fig:two-phase_exp}. The solid body is made out of $50$ intersecting spheres with the density of 2500 kg/m$^3$ and set up in the area $x: 0.15 $ to $0.22$, $y: 0.1$ to $0.125$, $z: 0.3$ to $0.35$. CFD domain is $0.4\times 0.3\times0.4$. The fluid level is on $y = 0.2$. Simulation run for $0.3$s with $\Delta t = 5e-5$. The body falling under gravity force in $z$-direction. 
 
-The image \ref{fig:two-phase_exp} captures the dynamic interaction between the multispherical body and the fluid, including the entry, sinking, and settling phases. The snapshots highlight the complexity of movement and deformation of a clump. Figure\ref{fig:two-phase exp}(a) shows the initial multispherical body placement, which is located between $0.3$ and $0.35$, the body starts to fall under the gravity force. In the second image \ref{fig:two-phase_exp} (b), we can see the body after penetration into the water. In figures \ref{fig:two-phase_exp} (c) and (d), we can see the body settled at the bottom of the container, and the fluid's free surface is stabilized.
-
-The simulation result shows the stability of the numerical scheme for the resolved CFD-DEM method as well as during fluctuations of free surface and calculation of surface tension. Due to successful multispherical body interaction with fluid, for the next simulation, we increased the number of clumps but reduced the number of spheres in clumps. 
-
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
@@ -357,11 +381,23 @@ The simulation result shows the stability of the numerical scheme for the resolv
         \subcaption{0.3 sec}
         %(d) Description
     \end{minipage}
-    \caption{Falling multispherical body consisting of $n = 50$ spheres where a) initial clump placement b) after penetration into fluid c) body settled at the bottom of the container at 0.2 sec d) body settled at the bottom of the container at 0.3 sec}
+    \caption{Falling multispherical body consisting of $n = 50$ spheres where a) initial clump placement b) after penetration into fluid c) body settled at the bottom of the container at 0.2 sec d) body settled at the bottom of the container at 0.3 sec.}
     \label{fig:two-phase_exp}
 \end{figure}
 
-For multiple clumps simulation (Figure \ref{fig:two-phase_exp_clumps}), the experiment includes 22 clumps made out of 18 spheres, in total 396 spheres falling under gravity force and interacting with the splashed water. CFD area has 216000 computational cells, and the dimension of the domain is $0.4\times 0.3\times0.4$. Area filled with clumps is $x:0.2$ to $0.4$, $y: 0.0$ to $ 0.2$,$ z:0.0$ to $ 0.3$.
+First, we consider the falling clump - multispherical body experiment \ref{fig:two-phase_exp}. The solid body is made out of $50$ intersecting spheres with a density of 2500 kg/m$^3$ and set up in the area $x: 0.15 $ to $0.22$, $y: 0.1$ to $0.125$, $z: 0.3$ to $0.35$. The CFD domain is $0.4\times 0.3\times0.4$. The fluid level is on $y = 0.2$. The simulation ran for $0.3$s with $\Delta t = 5e-5$. The body falls under gravity force in the $z$-direction. 
+
+Figure \ref{fig:two-phase_exp} captures the dynamic interaction between the multispherical body and the fluid, including the entry, sinking, and settling phases. The snapshots highlight the complexity of movement and deformation of a clump. Figure\ref{fig:two-phase exp}(a) shows the initial multispherical body placement, which is located between $0.3$ and $0.35$, the body starts to fall under the gravity force. In the second image \ref{fig:two-phase_exp} (b), we can see the body after penetration into the water. In figures \ref{fig:two-phase_exp} (c) and (d), we can see the body settled at the bottom of the container, and the fluid's free surface is stabilized.
+
+The simulation result shows convergence of the numerical scheme for the resolved CFD-DEM method as well as during fluctuations of free surface and calculation of surface tension. Due to successful multispherical body interaction with fluid, for the next simulation, we increased the number of clumps but reduced the number of spheres in clumps. 
+
+
+
+For multiple clumps (Figure \ref{fig:two-phase_exp_clumps}), the experiment includes 22 clumps made out of 18 spheres, in total 396 spheres falling under gravity force and interacting with the splashed water. The CFD area has 216000 computational cells, and the dimension of the domain is $0.4\times 0.3\times0.4$. The area filled with clumps is $x:0.2$ to $0.4$, $y: 0.0$ to $ 0.2$,$ z:0.0$ to $ 0.3$. The simulation ran for $0.3$s with $\Delta t = 5e-5$. The clumps fall under gravity force in $z$-direction.
+
+Figure \ref{fig:two-phase_exp_clumps} (a) shows clumps placement at $0.05$ sec; the water column begins to collapse under gravity. Some clumps are submerged, while others are still in contact with the air. In the second Figure \ref{fig:two-phase_exp_clumps} (b), the body of water is almost entirely covered with clumps and moving in the $z$ direction under the gravity force. In Figures \ref{fig:two-phase_exp_clumps} (c) - (f), the column of fluid has collapsed further. We can see a splash of water hit the right boundary of the box and the bodies rotating and settling at the bottom of the container. The interaction between the fluid and the spherical bodies continues to evolve, and the flow continues to develop.
+
+\newpage
 \begin{figure}[H]
     \centering
     \begin{minipage}{.4\textwidth}
@@ -399,14 +435,14 @@ For multiple clumps simulation (Figure \ref{fig:two-phase_exp_clumps}), the expe
         \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_6.png}
         \subcaption{0.3 sec}
     \end{minipage}
-    \caption{Solid multi-spherical bodies interact with collapsing column of liquid: a) clumps placement b) clumps moving under gravity force c) clumps fully covered by body of fluid, fluid hits right boundary of the domain d) clumps continue to move under fluid and gravity forces e) fluid flow continue to develop f) developing fluid flow and solid bodies rotation.}
+    \caption{Solid multi-spherical bodies interact with a collapsing column of liquid: a) clumps placement b) clumps moving under gravity force c) clumps fully covered by a body of fluid, fluid hits the right boundary of the domain d) clumps continue to move under fluid and gravity forces e) fluid flow continues to develop f) developing fluid flow and solid bodies rotation.}
     \label{fig:two-phase_exp_clumps}
 \end{figure}
-Simulation run for $0.3$s with $\Delta t = 5e-5$. The clumps fall under gravity force in $z$-direction.
 
-Figure \ref{fig:two-phase_exp_clumps} (a) shows clumps placement at $0.05$ sec; the water column begins to collapse under gravity. Some clumps are submerged, while others are still in contact with the air. In the second Figure \ref{fig:two-phase_exp_clumps} (b), the body of water is almost entirely covered with clumps and moving in the $z$ direction under the gravity force. In Figures \ref{fig:two-phase_exp_clumps} (c) - (f), the column of fluid has collapsed further. We can see a splash of water hit the right boundary of the box and the bodies rotating and settling at the bottom of the container. The interaction between the fluid and the spherical bodies continues to evolve, and the flow continues to develop.
 
-Simulations on Figures \ref{fig:two-phase_exp} and \ref{fig:two-phase_exp_clumps} show that the created numerical algorithm could be used for large-scale computations with a larger number of particles. Code used for particle simulation \cite{LIGGGHTS} includes the possibility to use a number of clumps of different shapes, which also could approximate simulations better to real-world problems.
+
+
+The simulations on Figures \ref{fig:two-phase_exp} and \ref{fig:two-phase_exp_clumps} show that the created numerical algorithm could be used for large-scale computations with a larger number of particles and handle complex multiphase flows with particle-fluid interactions, including the formation of clumps with various shapes. As the number of particles increases, the parallel domain decomposition approach can be further leveraged by distributing the computational load across a greater number of MPI processes, facilitating simulations at larger scales while maintaining numerical stability and reasonable computational times. The code leverages parallel computing capabilities through domain decomposition using the Message Passing Interface (MPI). The computational domain is decomposed into multiple subdomains, and each subdomain is assigned to a separate MPI process. In the case of these simulations, the simple domain decomposition method available in OpenFOAM was used. The MPI processes exchange boundary data at the interfaces between neighboring subdomains, enabling efficient parallel execution of the simulations. The code used for particle simulation \cite{LIGGGHTS} includes the possibility to use a number of clumps of different shapes, which also could better approximate real-world problems.
 
 \begin{table}[H]
     \centering
@@ -424,7 +460,28 @@ Simulations on Figures \ref{fig:two-phase_exp} and \ref{fig:two-phase_exp_clumps
         \bottomrule
      \end{tabular}
 \end{table}
-Table \ref{table4-chap4} shows computational times for a multiple clump simulation with varying numbers of processors. The results show that the simulation benefits from parallel processing, as evidenced by the decrease in computational time when the number of processors is doubled. When increasing the number of processors from 16 to 32, the computational time decreases from 4500 seconds to 2580 seconds. This represents a reduction of approximately 42.7\%. Further, increasing the number of processors to 64 reduces the time to 1320 seconds, about 49.2\% less than the time taken with 32 processors and approximately 70.7\% less than the time with 16 processors. These results show the benefits of parallel computation for the developed solver.
+The computational performance and parallel scalability of the developed solver were evaluated through multiple clump simulations with varying numbers of processors. Table~\ref{table4-chap4} presents the computational times for these simulations, demonstrating the effectiveness of parallel processing. As the number of processors increases from 16 to 32 and further to 64, a significant reduction in computational time is observed, indicating the solver's ability to leverage additional computational resources effectively.
+
+%Speedup for 32 processors (N_max = 32) compared to 16 processors:
+%S_32 = T_16 / T_32 = 4500 sec / 2580 sec = 1.74
+%Speedup for 64 processors (N_max = 64) compared to 16 processors:
+%S_64 = T_16 / T_64 = 4500 sec / 1320 sec = 3.41
+%Parallel Efficiency = (Speedup * N_min / N_max) * 100%
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm]{GWU_Thesis_Sarmakeeva/Images/chap3/parallel_runtime.png}
+    \caption{Runtime (in seconds) versus number of processors for the experiment of solid multi-spherical bodies interacting with a collapsing column of liquid. }
+    \label{fig:runtime}
+\end{figure}
+
+The parallel efficiency, a metric that quantifies the utilization of computational resources in parallel computing, was calculated for the 32 and 64 processor cases, using the 16 processor case as the baseline. The results show that the parallel efficiency is approximately 87\% when using 32 processors and 85.25\% when using 64 processors. These high parallel efficiency values, above the generally accepted threshold of 80\%, indicate good scalability and efficient utilization of the computational resources.
+
+To calculate parallel efficiency we used formula:
+$$\epsilon = S_p * \frac {N_{min}}{N_{max}}$$
+where $S_p$ is speedup, $N_{min}$ and $N_{max}$ number of processors, since the option to run solver sequentially is not available.
+
+However, it is worth to notice that a slight decrease in parallel efficiency is observed as the number of processors increases from 32 to 64. This behavior is expected due to the increasing communication overhead and potential load imbalance associated with distributing the workload across a larger number of processors. Nonetheless, the overall parallel performance remains good, showcasing the solver's capability to handle large-scale simulations involving multiple clumps and particle-fluid interactions. These results show the benefits of parallel computation for the developed solver.
 
 \section{Discussion}
 
@@ -432,13 +489,13 @@ Table \ref{table4-chap4} shows computational times for a multiple clump simulati
 
 The primary objective of this study was to create a robust simulation tool tailored for analyzing landslide phenomena in coastal environments. This endeavor required identifying and implementing suitable methods and leveraging open-source code as a foundational framework. The complexity of this task necessitated a comprehensive approach encompassing implementation, verification, validation, and extensive testing.
 
-Our verification and validation processes confirmed that the solver operates in line with our theoretical expectations. Subsequent to this, we embarked on a series of intricate simulations to examine the solver's capabilities further. Initial tests involving the simulation of a bouncing body yielded stable outcomes, affirming the solver's reliability. Progressing further, we conducted simulations incorporating multispherical bodies interacting within a fluid using our developed solver. These tests demonstrated the solver's adeptness in managing complicated interactions between solid and liquid phases. This proficiency is critical for the accurate representation of real-world phenomena such as landslides, sediment transport, and other scenarios involving particulate flows.
+We run a series of simulations to examine the solver's capabilities. Initial tests involving the simulation of a bouncing body yielded numerical accuracy and achieved convergence even in cases with large deformations, or complex geometries, affirming the solver's reliability. Progressing further, we conducted simulations incorporating multispherical bodies interacting within a fluid using our developed solver. These tests demonstrated the solver's adeptness in managing complicated interactions between solid and liquid phases. This proficiency is critical for the accurate representation of real-world phenomena such as landslides, sediment transport, and other scenarios involving particulate flows.
 
-A significant aspect of our solver is its ability to handle geometric complexities. This is evidenced in our simulations (see Figure \ref{fig:two-phase_exp_clumps}), where the solver tracked the motion and interaction of irregularly shaped bodies within the fluid. Given the complex boundary conditions and potential non-linear material behavior encountered in such simulations, this capability is crucial.
+A significant aspect of our solver is its ability to handle geometric complexities. This is evidenced in our simulations (see Figure \ref{fig:two-phase_exp_clumps}), where the solver tracked the motion and interaction of irregularly shaped bodies within the fluid. Given the complex boundary conditions and potential non-linear material behavior encountered in such simulations, this capability is crucial. 
 
-Moreover, our solver exhibits excellent scalability and efficiency in parallel computing environments. We observed a notable reduction in computation times with the increase in processor counts, as detailed in Table \ref{table4-chap4}. This scalability is particularly beneficial for handling the computationally intensive tasks associated with fluid-solid interaction simulations.
+%The solver code is accessible online \cite{github_solver} with post-processing data.
 
-Documentation of our solver, including its theoretical foundations, implementation details, and usage guidelines, is accessible online (see \ref{sarmakeeva_multiphaseIB}). This resource is intended to assist researchers and practitioners in adopting and adapting our tool for their specific needs, thereby contributing to the broader scientific community's understanding and management of complex fluid-solid interactions.
+Moreover, our solver exhibits good scalability in parallel computing environments. We observed a reduction in computation times from 4500 sec to 2580 sec for 16 and 32 processors and to 1320 sec of computational time for the simulation of 64 processors for the experiment of solid multi-spherical bodies and two-phase fluid as detailed in Table \ref{table4-chap4}. This scalability is particularly beneficial for handling the computationally intensive tasks associated with fluid-solid interaction simulations.
 
  
 

@@ -3,22 +3,24 @@
 % --------- FRONT MATTER PAGES ---------------------
 
 % Title of the thesis
-\title{A Resolved CFD-DEM Coupling Method for Simulation Two-Phase Fluids Interaction with Arbitrary Shaped Bodies.}
+\title{A Resolved CFD-DEM Coupling Method for Simulation of Two-Phase Fluids Interacting with Arbitrary Shaped Bodies.}
 % capitalize significant words!
 
 % Author name
 \author{Anastasiia Sarmakeeva}
 
 % Previous degrees
-\bachelordegree{Specialist's degree}
+%\bachelordegree{Specialist's degree}The School of Engineering and Applied Science
+
 \bsdepartment{Applied Mathematics and Computer Science}
 \bsschool{Udmurt State University}
 \bsgrad{July 2014} % "month year"
 
-\masterdegree{M.S.}
-\msdepartment{Your graduate old department}
-\msschool{Your graduate alma mater}
-\msgrad{Month YYYY}  % "month year"
+
+%\masterdegree{Specialist's degree}
+%\msdepartment{Applied Mathematics and Computer Science}
+%\msschool{Udmurt State University}
+%\msgrad{July 2014}  % "month year"
 % you can show or hide the MS degree line
 %\showmsdegree
 \hidemsdegree
@@ -35,14 +37,11 @@
 
 % Chair must be entered separately for formatting reasons.
 \chair{Lorena A. Barba}
-\department{Mechanical and Aerospace Engineering}
+%\department{Mechanical and Aerospace Engineering}
 \chairtitle{Professor of Mechanical and Aerospace Engineering}
 
-% uncomment and use the below if you have a co-chair. note the code reacts to the \cochair{} , not the \cochairtitle{}
-% \cochair{Co-Chair Person}
-% \cochairtitle{Just-as-Amazing Professor of \insertdepartment}
 
-\phdschool{The School of Engineering and Applied Science}
+%\phdschool{The School of Engineering and Applied Science}
 
 \committee{ 
 % director first
@@ -50,30 +49,26 @@ Lorena A. Barba, Professor of Mechanical and Aerospace Engineering, Dissertation
 
 % remember to add a space between committee members
 \vspace{\baselineskip}
-Elias Balaras, Professor of Engineering and Applied Science, Committee Member \hfill
+Elias Balaras, Professor of Mechanical and Aerospace Engineering, Committee Member \hfill
     
 
 \vspace{\baselineskip}
-Kausik Sarkar, Professor of Mechanical and Aerospace Engineering, Committee Member \hfill
+Megan Leftwich, Professor of Mechanical and Aerospace Engineering, Committee Member \hfill
 
 \vspace{\baselineskip}
 % note you shouldn't write "The George Washington University" at all- it is implied
-Thomas Lichtenegger, Department of Particulate Flow Modelling, Committee Member \hfill
-
-\vspace{\baselineskip}
-
-Full Name, Title, Dissertation Director/Dissertation Co-Director/Committee Member \hfill
+Philippe Bardet,  Professor of Mechanical and Aerospace Engineering, Committee Member \hfill
 
 \vspace{\baselineskip}
 
 % external examiner
-Name of External Examiner, Professorial Title, Name of External University (or Name, Job Title, Name of External Company), Committee Member  % include university or company of any external examiner! but still "committee member"
+Philip Cardiff, Ph.D, School of Mechanical and Materials Engineering, University College Dublin, Committee Member  % include university or company of any external examiner! but still "committee member"
 }
 
-\phdgrad{CHANGE January 8, 2024}  % Month DD, YYYY
-\defensedate{December 18, 2023}  % Month DD, YYYY
+\phdgrad{May 19, 2024}  % Month DD, YYYY
+\defensedate{March 26, 2024}  % Month DD, YYYY
 % Year of completion for copyright page and perhaps other places
-\year=2023
+\year=2024
 
 % Copyright page
 %\copyrightholder{Someone else}
@@ -104,12 +99,12 @@ Last but not least, I want to thank my partner, Lawrence Kirk, your emotional an
 % To choose one simply delete the others and they will automatically disappear
 
 % Preface
-\preface{
-    This is the preface. 
-    It's another front matter page that offers additional detail into your work.
-    Typically, only one (preface OR prologue OR foreword) is used. 
-    You can remove the other sections by deleting them inside \texttt{tex/frontmatter.tex} or using the appropriate show or hide commands.
-}
+%\preface{
+%    This is the preface. 
+%    It's another front matter page that offers additional detail into your work.
+%    Typically, only one (preface OR prologue OR foreword) is used. 
+%    You can remove the other sections by deleting them inside \texttt{tex/frontmatter.tex} or using the appropriate show or hide commands.
+%}
 
 \prologue{
     This is the prologue. 
@@ -133,7 +128,7 @@ Last but not least, I want to thank my partner, Lawrence Kirk, your emotional an
 \showcommitteepage
 \showdedication
 \showacknowledgments
-\showpreface
+%\showpreface
 \hideprologue
 \hideforeword
 
@@ -155,13 +150,24 @@ Last but not least, I want to thank my partner, Lawrence Kirk, your emotional an
 % Definition of any abbreviations used.
 \abbreviations{
     \acro{VOF}{Volume of Fluid}
+    \acro{CFD}{Computational Fluid Dynamic}
     \acro{FVM}{Fine Volume Method}
+    \acro{MAC}{Marker and Cell}
+    \acro{IB}{Immersed Boundary Method}
+    \acro{FTM}{Front Tracking Method}
     \acro{MPI}{Message Passing Interface}
+    \acro{LSM}{Level Set Method}
+    \acro{V&V}{Validation and Verification}
     \acro{FEM}{Finite Element Method}
     \acro{DEM}{Discrete Element Method}
     \acro{FSI}{Fluid Structure Interaction}
+    \acro{MULES}{Multidimensional Universal Limiter for Explicit Solution}
+    \acro{PLIC}{Piece-wise Linear Interface Calculation}
+    \acro{HIRC}{High-Resolution Interface Capturing}
+    \acro{THINC}{Tangent of Hyperbola for Interface Capturing}
+    \acro{CICSAM}{Compressive Interface Capturing Scheme for Arbitrary Meshes}
     \acro{SPH}{Smooth Particle Hydrodynamic}
-    \acro{LBM}{Lattice Boltzman Method}
+    \acro{LBM}{Lattice Boltzmann Method}
     \acro{MD}{Molecular Dynamic}
     
 }
@@ -232,7 +238,7 @@ Landslides, causing over 5000 deaths annually, not only represent a tragic loss 
 
 For simulations, we use CFD methods combined with the Discrete Element Method (DEM) to represent solid bodies of arbitrary shapes. To improve the simulation model, we developed a force model based on the open-source code CFDEMcoupling\cite{kloss2012models}. We use a resolved CFD-DEM approach, where the solid body takes more than a computational cell. This simulation helps to track interactions between fluids and solids, such as the movement of soil or rocks falling into water.
 
-The fluid and solid components are discretized using the Eulerian and Lagrangian frameworks. The solid component is coupled using the Immersed Boundary Method, where a solid body projects into the CFD mesh. For the free surface simulation in the current work, we use the sharp interface method based on isoAdvector solver \cite{roenby2019isoadvector} and the DEM for solid body simulation. Validation and verification showed that the solver performs according to our expectations. We conducted more detailed simulations based on those initial results, including a bouncing body test, demonstrating the method's stability and reliability. Then, we ran the simulation with multispherical body interactions and two-phase fluids, showing that the method could effectively handle complex interactions between solid and liquid phases and the dynamics of multiple solid bodies. It can track the motion and interaction of bodies with non-uniform shapes through the fluid, which involves complex boundary conditions and potentially non-linear material behavior. Results also show that the solver is effective for parallel computations by the decreased computation times with increased processor counts. We provide the solver's documentation online, and a container application ensures reproducibility. 
+The fluid and solid components are discretized using the Eulerian and Lagrangian frameworks. The solid component is coupled using the Immersed Boundary Method, where a solid body projects into the CFD mesh. For the free surface simulation in the current work, we use the geometric reconstruction method based on isoAdvector solver \cite{roenby2019isoadvector} and the DEM for solid body simulation. Validation and verification showed that the solver performs according to our expectations. We conducted more detailed simulations based on those initial results, including a bouncing body test, demonstrating the method's stability and reliability. Then, we ran the simulation with multispherical body interactions and two-phase fluids, showing that the method could effectively handle complex interactions between solid and liquid phases and the dynamics of multiple solid bodies. It can track the motion and interaction of bodies with non-uniform shapes through the fluid, which involves complex boundary conditions and potentially non-linear material behavior. Results also show that the solver is effective for parallel computations by the decreased computation times with increased processor counts. We provide the solver's documentation online, and a container application ensures reproducibility. 
 
 This advanced computational capability, demonstrated by our solver, is crucial for accurately modeling and understanding real-world phenomena such as landslides, sediment transport, and various particulate flow problems, thereby contributing significantly to computational fluid dynamics and disaster risk management.
 

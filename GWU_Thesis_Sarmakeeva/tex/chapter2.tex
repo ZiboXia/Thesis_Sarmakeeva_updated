@@ -1,8 +1,8 @@
-\chapter{Background and Methods} \label{chap:lit_rev}
+\chapter{Background and Methods} \label{chap:theory}
 
-As discussed in the previous chapter, we will solve a complicated process such as a landslide simulation as a Fluid Structure Interaction (FSI) problem. It is well known in the CFD field, attacking researchers and scientists with different approaches. The main criteria and difficulty for the problem we consider in the current thesis are that we are solving a two-way coupling simulation \cite{benra2011comparison}. That means that simulations from the fluid part affect simulation from the solid part and vice versa, and we need to consider the best way to communicate between these two parts. We use the geometrical Volume of Fluid approach for coupling based on the Immersed Boundary Method for free surface reconstruction. For solid particle simulation, the Discrete Element Method allows multispherical bodies as arbitrarily shaped bodies.
+As discussed in the previous chapter, we will solve a complicated process such as a landslide simulation as a Fluid-Structure Interaction (FSI) problem. It is well known in the CFD field, attacking researchers and scientists with different approaches. The main criteria and difficulty for the problem we consider in the current thesis are that we are solving a two-way coupling simulation \cite{benra2011comparison}. That means that simulations from the fluid part affect simulation from the solid part and vice versa, and we need to consider the best way to communicate between these two parts. We use the geometrical Volume of Fluid approach for coupling based on the Immersed Boundary Method for free surface reconstruction. For solid particle simulation, the Discrete Element Method allows multispherical bodies as arbitrarily shaped bodies.
 
-We will start with Navier-Stokes system of equation for incompressible fluid which consist of momentum and continuity equation:
+We will start with the Navier-Stokes system of equations for incompressible fluid, which consists of momentum and continuity equations:
 
 \begin{equation}\label{NS_methods}
 \frac{\partial(\rho \mathbf{u})}{\partial t}+\nabla \cdot(\rho \mathbf{u u})=-\nabla p+\nabla \cdot \boldsymbol{\tau}+\rho \mathbf{g},
@@ -20,17 +20,17 @@ where $\mu$ is fluid dynamic viscosity.
 There is no analytical solution available for Navier Stokes equation; in fact, solution existence and uniqueness have not been proven till these days \cite{klay}. The most common and stable approach for fluid simulation is to solve equations approximately the Finite Volume Method (FVM) \cite{ferziger2002cfd}, where we use the Eulerian frame of reference to solve momentum and continuum equations as a Navier-Stokes system.
 
 \section{The Finite Volume Method}
-To solve system of equations \ref{NS_methods} we need to discretize the solution domain which is in turn give us a computational mesh on which governing equations are subsequently solved. The procedure is consist of two parts: discretisation of time and discretisation of space.
+To solve a system of equations \ref{NS_methods}, we need to discretize the solution domain, which, in turn, gives us a computational mesh on which governing equations are subsequently solved. The procedure consists of two parts: discretization of time and discretization of space.
 
-For the space discretisation we use Finite Volume Method (FVM), where the main feature is that domain is subdivided into Control Volumes (which is does not overlap and cover the whole domain).
+For the space discretization, we use the Finite Volume Method (FVM), where the main feature is that the domain is subdivided into Control Volumes (which do not overlap and cover the whole domain).
 \begin{equation}\label{2.2}
 \frac{\partial\phi}{\partial t} +\nabla \cdot(\rho\mathbf{u}\phi) = \nabla \cdot(D \nabla \phi) + S ,
 \end{equation}
-where $D$ -  is diffusivity of the flux $\phi$ and $S$ is the source term. If we will write the equation in integral form as:
+where $D$ -  is diffusivity of the flux $\phi$ and $S$ is the source term. If we write the equation in integral form as:
 \begin{equation}
 \frac{\partial\phi}{\partial t}  \int_{V_C} \phi d V+\int_{V_C} \nabla \cdot(\rho\mathbf{u}\phi) d V = \int_{V_C} \nabla \cdot(D \nabla \phi) d V + \int_{V_C} S d V,
 \end{equation}
-where $V_C$ is a fixed control volume $C$ and $S$ its flux over the boundaries. Then applying Gauss theorem to the convective and diffusive term we will get
+where $V_C$ is a fixed control volume $C$ and $S$ its flux over the boundaries. Then, applying Gauss theorem to the convective and diffusive term, we will get
 \begin{equation}\label{2.3}
 \frac{\partial}{\partial t}\int_{V_C} \phi d V+\int_{S_C} \nabla \cdot(\mathbf{u}\phi) d \mathbf{S} = \int_{S_C} \nabla \cdot(D \nabla \phi) d \mathbf{S} + \int_{V_C} S d V,
 \end{equation}
@@ -40,7 +40,7 @@ where integral over a surface $S_C$ of control volume $C$ integral with normal d
 \subsection{Governing equations and domain discretization}
 Using finite difference approach to propagate in time and replacing $\mathbf{u}$ by an approximation of the Taylor series around the cell centre.
 
-Eqn. \ref{2.3} is semi-discretized form of eqn. \ref{2.2}, in order to solve it we need to approximate each term \cite{ferziger2002cfd} for the forward Euler scheme:
+Eqn. \ref{2.3} is semi-discretized form of eqn. \ref{2.2}, in order to solve it, we need to approximate each term \cite{ferziger2002cfd} for the forward Euler scheme:
 
 \begin{equation}
     \frac{\partial}{\partial t}\int_{V_C} \phi d V = \frac{ \rho^{n+1} \phi^{n+1} -  \rho^{n}\phi^{n} }{\Delta t} V_C
@@ -50,11 +50,11 @@ The convective term can be approximated by summing up the fluxes $\phi$ across t
     \int_{S_C}\nabla \cdot \rho\mathbf{u}_f \phi d \mathbf{S} \approx \sum_f  \rho\mathbf{u}_f \phi_f\cdot \mathbf{S}_f
 \end{equation}
 where $\mathbf{S}_f$ faces of the control volume element $C$ and $\mathbf{u}_{f}$ is interpolated value at the corresponding face.
-Similar procedure applied for diffusive term if we assume that $D$ is a scalar
+A similar procedure is applied for diffusive term if we assume that $D$ is a scalar
 \begin{equation}
     \int_{S_C}\nabla\cdot(D \nabla \phi) d \mathbf{S} \approx \sum_f D (\nabla_f \phi)\cdot{d\mathbf{S}_f},
 \end{equation}
-where $ \nabla_f \phi$ is the face normal gradient at face $S_C$. The source term as a function of $\phi$ could be integrated over a the control volume as
+where $ \nabla_f \phi$ is the face normal gradient at face $S_C$. The source term as a function of $\phi$ could be integrated over a control volume as
 \begin{equation}
   S(\phi) = S_p\phi +S_u
   \end{equation}
@@ -68,22 +68,22 @@ where $S_p$ and $S_u$ are source terms.
 
 %\subsection{Equation discretization}
 \subsection{Temporal discretization}
-In order to propagate in time $[t, t+\Delta)$. The time interval $[t, t+\Delta)$ is divided into a number of time intervals of length $\Delta t$ starting at $t_0$. For these time intervals we will solve equation:
+In order to propagate in time $[t, t+\Delta)$. The time interval $[t, t+\Delta)$ is divided into a number of time intervals of length $\Delta t$ starting at $t_0$. For these time intervals, we will solve equation:
 \begin{equation}\label{2.5}
 \int^{t+\Delta t}_t \left[\frac{\partial}{\partial t}\int_{V_C} \phi d V+\int_{S_C} \nabla \cdot(\rho \mathbf{u}\phi) d \mathbf{S}\right] d t=\int^{t+\Delta t}_t\left[\int_{S_C} \nabla \cdot(D \nabla \phi) d \mathbf{S} + \int_{V_C} S d V\right] d t
 \end{equation}
-Assuming that control volume does not change in time we can rewrite \ref{2.5} as a discretized form of transport equation \ref{2.2}. Using an implicit Euler formulation and substituting disrcetized spatial terms we will get:
+Assuming that control volume does not change in time, we can rewrite \ref{2.5} as a discretized form of transport equation \ref{2.2}. Using an implicit Euler formulation and substituting disrcetized spatial terms, we will get:
 
 \begin{equation} \label{NS_discr_1}
 \frac{\rho\phi^{n+1}_C - \rho\phi^{n}_C}{\Delta t} V_{C}+\sum_{f} \mathbf{S}_{f} \cdot \rho\mathbf{u}_{f}\phi_f^{n+1} =\sum_{f} D_f\left(\mathbf{S}_{f} \nabla_{f} \phi_f^{n+1}\right)+ S_p V_C\phi^{n+1}_C +S_u V_C
 \end{equation}
 % c- is central flux probably???
-where $\phi^{n+1}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t+\Delta t$, $\phi^{n}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t$, $\mathbf{S}_{f}$ is the area of face $f$, $\rho\mathbf{u}_{f}$ is the interpolated velocity at the face $f$, $\phi_f$ is the interpolated value of $\phi$ at the face $f$, $D_f$ is the diffusivity at the face $f$, $S_p$ and $S_u$ are source terms. Face values have to be obtained from the neighboring cells, which is why interpolation scheme is play important role in accuracy and stability of the solution.
+where $\phi^{n+1}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t+\Delta t$, $\phi^{n}_C$ is the value of $\phi$ at the centre of control volume $C$ at time $t$, $\mathbf{S}_{f}$ is the area of face $f$, $\rho\mathbf{u}_{f}$ is the interpolated velocity at the face $f$, $\phi_f$ is the interpolated value of $\phi$ at the face $f$, $D_f$ is the diffusivity at the face $f$, $S_p$ and $S_u$ are source terms. Face values have to be obtained from the neighboring cells, which is why the interpolation scheme plays an important role in the accuracy and stability of the solution.
 
 In addition to the forward Euler scheme already discussed, other commonly used methods include the first-order implicit backward Euler and the second-order hybrid Crank-Nicolson schemes \cite{sun2006efficient}.
 
 \subsection{Solving linear system of algebraic equations}
-There are different approaches to get neighboring cell-face values. It could be widely used upwind scheme \cite{leonard1979stable} or it could be higher order scheme.
+There are different approaches to get neighboring cell-face values. It could be a widely used upwind scheme \cite{leonard1979stable}, or it could be a higher-order scheme.
 
 If we write \ref{NS_discr_1} in general form as:
 \begin{equation}
@@ -93,48 +93,75 @@ where $N$ denotes of neighboring cells of $C$,  $a_C$ are the diagonal component
 \begin{equation}
 [A][\phi]=\mathbf{B}
 \end{equation}
-where $[A]$ is the sparse matrix containing the coefficients $a_c$ and $a_N$, $[\phi]$ is a flux values, which is unknown and $\mathbf{B}$ contains the source terms. This system is a set of linear equations which can be solved using a suitable numerical technique. It could be a direct solver or an iterative method. Direct solvers become impractical for large systems due to their operation count scaling with the number of equations, leading to a significant increase in computational effort as the system size grows. On the other hand, iterative methods begin with an initial guess and progressively refine the solution's accuracy with each iteration, based on the equation's tolerance, making them more efficient for large systems. Moreover, the matrix $[A]$ typically has a sparse structure, with non-zero elements primarily along the diagonal and very few non-zero elements elsewhere, further enhancing the suitability of iterative methods for these problems.
+where $[A]$ is the sparse matrix containing the coefficients $a_c$ and $a_N$, $[\phi]$ is a flux values, which is unknown and $\mathbf{B}$ contains the source terms. This system is a set of linear equations which can be solved using a suitable numerical technique. It could be a direct solver or an iterative method. Direct solvers become impractical for large systems due to their operation count scaling with the number of equations, leading to a significant increase in computational effort as the system size grows. On the other hand, iterative methods begin with an initial guess and progressively refine the solution's accuracy with each iteration based on the equation's tolerance, making them more efficient for large systems. Moreover, the matrix $[A]$ typically has a sparse structure, with non-zero elements primarily along the diagonal and very few non-zero elements elsewhere, further enhancing the suitability of iterative methods for these problems.
 
 \subsection{Solution of the system}\label{p-v-coupling}
 Because the momentum and continuity equation does not have a pressure relation \ref{NS_methods} and there is no straightforward solution, a couple of common ways exist to treat this issue \cite{ferziger2002cfd}. The most common are SIMPLE, PISO, and PIMPLE algorithms. This work uses Pressure Implicit Splitting Operator (PISO) \cite{ferziger2002cfd} due to its stability to time advantage. Equation \ref{NS_discr_1} is rewritten with the pressure term as
 \begin{equation} \label{NS_algebraic}
 \rho \frac{\mathbf{u}_{\mathbf{f}}{ }^{n+1}-\mathbf{u}_{\mathbf{f}}^{n}}{\Delta t} V_C+\sum_f \mathbf{S}_f \cdot\left(\rho \mathbf{u}_{\mathbf{f}}\right)_f \mathbf{u}_{\mathbf{f}}=\sum_f \mu_f\left(\mathbf{S}_f \nabla_f \mathbf{u}_{\mathbf{f}}\right)-\sum_f \nabla_f\left(p^n\right)
 \end{equation}
-can be solved as a system of linear algebraic equations in two steps on a staggered according to the PISO approach. Usually, the pressure is calculated using the Rhie-Chow\cite{rhie} interpolation scheme. It is done to avoid pressure-velocity decoupling. The process of pressure-velocity coupling could be described in two steps:
+can be solved as a system of linear algebraic equations in two steps on a staggered according to the PISO approach. Usually, the pressure is calculated using the Rhie-Chow\cite{rhie} interpolation scheme. It is done to avoid pressure-velocity decoupling. The process of pressure-velocity coupling could be described in two steps. First, the prediction step finds intermediate velocity, and second, the correction step finds pressure and velocity.
 
-\textbf{Step 1:} Prediction step, to find intermediate velocity:
-\begin{equation}\label{NS_algebraic_1}
-    (H+A)\mathrm{u} = -\nabla p^n
+We can rewrite the momentum equation in semi-discretized form, as in \cite{issa1986solution}:
+\begin{equation}
+  a_c \boldsymbol{u}_{\mathrm{f} c}=\mathbf{H}\left(\boldsymbol{u}_{\mathrm{f}}\right)-\nabla p^*-\boldsymbol{g} \cdot \boldsymbol{x} \nabla \rho_{\mathrm{f}},  
 \end{equation}
-where all non-diagonal elements stored in matrix $\mathbf{H}(\mathbf{u})= -\sum_{N} a_{N}^{\mathrm{u}} \mathbf{u}_{N}$ and diagonal elements stored in matrix $A$. Then we can rewrite \ref{NS_algebraic_1} as
-\begin{equation}\label{NS_algebraic_2_}
-    \begin{aligned}
-a_{P}^{\mathrm{u}} \mathbf{u}_{P} &= \mathbf{H}(\mathbf{u})-\nabla p \\
-\mathbf{u}_{P} &= \left(a_{P}^{\mathrm{u}}\right)^{-1}(\mathbf{H}(\mathbf{u})-\nabla p)
+where $a_c$ is the matrix coefficient of $c$ and $\mathbf{H}\left(\boldsymbol{u}_{\mathrm{f}}\right)$ is the matrix of the viscous terms and the coefficients of the neighboring cells could be found as:
+\begin{equation}
+\mathbf{H}\left(\boldsymbol{u}_{\mathrm{f}}\right)=\nabla \cdot \boldsymbol{\tau}-\sum_N a_N \boldsymbol{u}_{\mathrm{f} N}
+\end{equation}
+
+To calculate the first step of the PISO algorithm, we predicting the velocity $\mathbf{u}_{\mathrm{f}}^*$ from a guessed pressure field $p^*$, which is usually pressure from the previous step
+\begin{equation}
+\boldsymbol{u}^*_{\mathrm{f} c}=\frac{1}{a_c}\left[\mathbf{H}\left(\boldsymbol{u}_{\mathrm{f}}\right)-\nabla p^*-\boldsymbol{g} \cdot \boldsymbol{x} \nabla \rho_{\mathrm{f}}\right]
+\end{equation}
+velocity $\boldsymbol{u}^*_{\mathrm{f} c}$, which we got, is not divergence-free, and we need to satisfy the continuity equation because it is predicted from the guessed pressure field. Then, to calculate pressure and velocity fields, a new divergence-free velocity will be found after the pressure correcting procedure:
+\begin{equation}
+\nabla \cdot\left(\frac{1}{a_c} \nabla p^*\right)=\nabla \cdot\left[\frac{1}{a_c}\left(\mathbf{H}\left(\boldsymbol{u}_{\mathrm{f}}\right)-\nabla p^*-\boldsymbol{g} \cdot \boldsymbol{x} \nabla \rho_{\mathrm{f}}\right)\right]
+\end{equation}
+now we have new, corrected pressure, and then we correct velocity based on new pressure, which basically looks like
+\begin{equation}
+\begin{aligned}
+&p^{* *}=p^*+p^{\prime}\\
+&\mathbf{u}_{\mathbf{f}}{ }^{* *}=\mathbf{u}_{\mathbf{f}}{ }^*+\mathbf{u}_{\mathbf{f}}^{\prime}
 \end{aligned}
 \end{equation}
-where $P$ is an index arbitrary velocity node, $N$ is an index from neighbouring cells.
+and this pressure correction is repeated a prescribed number of times for better solution convergence. The revised pressure field is applied to adjust the velocity, ensuring continuity and that the new velocity field is divergence-free.
 
-\textbf{Step 2:} Correction step, to find pressure and velocity:
+%\textbf{Step 1:} Prediction step, to find intermediate velocity:
+%\begin{equation}\label{NS_algebraic_1}
+%    (H+A)\mathrm{u} = -\nabla p^n
+%\end{equation}
+%where all non-diagonal elements stored in matrix $\mathbf{H}(\mathbf{u})= -\sum_{N} a_{N}^{\mathrm{u}} \mathbf{u}_{N}$ and diagonal elements stored in matrix $A$. Then we can rewrite \ref{NS_algebraic_1} as
+%\begin{equation}\label{NS_algebraic_2_}
+ %   \begin{aligned}
+%a_{P}^{\mathrm{u}} \mathbf{u}_{P} &= \mathbf{H}(\mathbf{u})-\nabla p \\
+%\mathbf{u}_{P} &= \left(a_{P}^{\mathrm{u}}\right)^{-1}(\mathbf{H}(\mathbf{u})-\nabla p)
+%\end{aligned}
+%\end{equation}
+%where $P$ is an index arbitrary velocity node, $N$ is an index from neighbouring cells.
 
-Compute flux on a cell faces using Rhie-Chow \cite{rhie} correction
-\begin{equation}
-    \phi = \frac{H(\mathbf{u})}{a^u_P}\cdot S_f
-\end{equation}
-where $S_f$ is area of a cell face. From \ref{NS_algebraic_1} to satisfy continuity equation $\nabla\cdot \mathbf{u} = 0$
-\begin{equation}
-    (a_{P}^{\mathbf{u}})^{-1} \cdot \nabla^2 p^* = \nabla \cdot \phi,
-\end{equation}
-then correct the velocity field:
-\begin{equation}
-    \mathbf{u}^{*} = (a_{P}^{\mathbf{u}})^{-1}(H(\mathbf{u}) - \nabla p^*)
-\end{equation}
-where $\mathbf{u}^*$ and $p^*$, an intermediate velocity and a pressure. Then repeat step 2, until convergence condition is fulfilled and last step is writing down $\mathbf{u}^{n+1}$ and $p^{n+1}$ for the next step $n + 1$.
+%\textbf{Step 2:} Correction step, to find pressure and velocity:
+
+%Compute flux on a cell faces using Rhie-Chow \cite{rhie} correction
+%\begin{equation}
+ %   \phi = \frac{H(\mathbf{u})}{a^u_P}\cdot S_f
+%\end{equation}
+%where $S_f$ is area of a cell face. From \ref{NS_algebraic_1} to satisfy continuity equation $\nabla\cdot \mathbf{u} = 0$
+%\begin{equation}
+%    (a_{P}^{\mathbf{u}})^{-1} \cdot \nabla^2 p^* = \nabla \cdot \phi,
+%\end{equation}
+%then correct the velocity field:
+%\begin{equation}
+ %   \mathbf{u}^{*} = (a_{P}^{\mathbf{u}})^{-1}(H(\mathbf{u}) - \nabla p^*)
+%\end{equation}
+%where $\mathbf{u}^*$ and $p^*$, an intermediate velocity and a pressure. Then repeat step 2, until convergence condition is fulfilled and last step is writing down $\mathbf{u}^{n+1}$ and $p^{n+1}$ for the next step $n + 1$.
 
 \section{Volume of fluid method for multiphase flow}
 
-For multiphase flow simulation we are using as a base of Volume of Fluid Method (VOF) \cite{hirt1981vof}. The main idea of the method is to track the interface between two fluids by solving the continuity equation for the volume fraction of one of the fluids. The volume fraction is defined as the ratio of the volume of one fluid to the total volume of the two fluids.
-\begin{equation}
+For multiphase flow simulation, we are using as a base of Volume of Fluid Method (VOF) \cite{hirt1981vof}. The main idea of the method is to track the interface between two fluids by solving the continuity equation for the volume fraction of one of the fluids. The volume fraction is defined as the ratio of the volume of one fluid to the total volume of the two fluids.
+We start with the Navier-Stokes equation for two phases:
+\begin{equation}\label{VOF_1}
 \begin{array}{c}
 \begin{aligned}
 \frac{\partial(\rho \mathbf{u})_{i}}{\partial t}+\nabla \cdot(\rho \mathbf{u u})_{i} & = -\nabla p_{i}+\nabla \cdot \boldsymbol{\tau}_{i}+\rho_{i} \mathbf{g} \\
@@ -142,11 +169,11 @@ For multiphase flow simulation we are using as a base of Volume of Fluid Method 
 \end{aligned}
 \end{array}
 \end{equation}
-where $i$ is the phase number. The VOF method relays on finite volume mesh \cite{ferziger2002cfd}. For simulation of the free surface we add phase convection equation:
+where $i$ is the phase number, the VOF method relies on finite volume mesh \cite{ferziger2002cfd}. Next step for simulation of the free surface we add to the system \ref{VOF_1} convection equation for fluid phase:
 \begin{equation}
-\frac{\partial \alpha}{\partial t}+\nabla \cdot(\alpha \boldsymbol{u})=0
+\frac{\partial \alpha}{\partial t}+\nabla \cdot(\alpha \mathbf{u})=0
 \end{equation}
-To differentiate fluid phases we can use scalar Heaviside step function to mark mesh cells as:
+To differentiate fluid phases, we can use the scalar Heaviside step function to mark mesh cells as shown in Figure \ref{fig:VOF_free_surface} and calculated as:
 \begin{equation}\label{2.1}
 \alpha(t, \mathbf{x})=\left\{\begin{array}{ll}
 1, & \mathbf{x} \in \Omega_{1} \\
@@ -154,13 +181,13 @@ To differentiate fluid phases we can use scalar Heaviside step function to mark 
 \end{array}\right.
 \end{equation}
 where $\Omega_{1}$, $\Omega_{2}$ different fluid phases and $\Gamma$ is a surface. The surface $\Gamma$ is a free surface between two fluids.
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=9cm]{Images/VOF_free_surface.png}
-    \caption{Schematic representation of volume of fluid mesh. Where values from $0$ to $1$ represent the fluid phase in a cell.}
-    \label{fig:galaxy}
+    \caption{Schematic representation of the volume of fluid mesh. Where values from $0$ to $1$ represent the fluid phase in a cell.}
+    \label{fig:VOF_free_surface}
 \end{figure}
-On the interface boundary we need to satisfy equilibrium state:
+On the interface boundary, we need to satisfy the equilibrium state:
 \begin{equation}
 \begin{array}{c}
 \begin{aligned}
@@ -178,19 +205,19 @@ where $\mathbf{e}$ - unit normal vector to $\Omega_1$, $K$ - surface curvature o
 \end{aligned}
 \end{array}
 \end{equation}
-In the pure advection problem with a predetermined velocity field the specific values of the fluid densities, $\rho_A$ and $\rho_B$ are immaterial, that is, the solution does not depend on them. To remove these insignificant parameters from the problem, we define the indicator field:
-\begin{equation}
-H(\mathbf{x}, t) \equiv \frac{\rho(\mathbf{x}, t)-\rho_{B}}{\rho_{A}-\rho_{B}}
+In the pure advection problem with a predetermined velocity field, the specific values of the fluid densities, $\rho_air$, and $\rho_water$, are immaterial; that is, the solution does not depend on them. To remove these insignificant parameters from the problem, we define the indicator field:
+\begin{equation}\label{fraction}
+H(\mathbf{x}, t) \equiv \frac{\rho(\mathbf{x}, t)-\rho_{water}}{\rho_{air}-\rho_{water}}
 \end{equation}
-where $\rho_{A}$ and $\rho_{B}$ are the densities of the two fluids.
+where $\rho_{air}$ and $\rho_{water}$ are the densities of the two fluids.
 
 \section{Free surface reconstruction method}
 
-The method discussed herein is a sharp interface reconstruction technique, often referred to by various authors as the geometric Volume of Fluid (VOF) approach. In their work, Deen et al. \cite{deen2009direct} utilized Direct Numerical Simulations (DNS) to simulate multi-phase flow, employing a combination of the VOF method \cite{hirt1981vof} and the Direct Forcing Immersed Boundary Method \cite{uhlmann2005immersed}. They used a piece-wise linear interface method for free surface reconstruction, as in the approach presented by Brackbill \cite{brackbill1992continuum}.
+The method discussed and used in this work is a sharp interface reconstruction technique, often referred to by various authors as the geometric Volume of Fluid (VOF) approach. Deen et al. \cite{deen2009direct} in their work utilized Direct Numerical Simulations (DNS) to simulate multi-phase flow, employing a combination of the VOF method \cite{hirt1981vof} and the Direct Forcing Immersed Boundary Method \cite{uhlmann2005immersed}. They used a piece-wise linear interface method for free surface reconstruction, as in the approach presented by Brackbill \cite{brackbill1992continuum}.
 
-A noted limitation of the VOF method, as discussed in \cite{hirt1981vof}, arises when the mutual distance between bubbles is less than the size of a computational cell. This condition, referred to as mutual coalescence, makes mass conservation challenging. Consequently, alternate methods such as the Multidimensional Universal Limiter with Explicit Solution (MULES) \cite{zalesak1979fully} and isoAdvector \cite{roenby2019isoadvector} have been considered. The study by Roenby et al. \cite{roenby2019isoadvector} provides a comprehensive comparison of these two methods and proprietary solvers like ANSYS Fluent and STAR-CCM+, demonstrating their performance using a disk formation flow experiment. Roenby et al.'s work \cite{roenby2019isoadvector} gave promising results, with the source code available online. Because of performance and access to the source code, the free surface reconstruction approach from isoAdvector was tested and chosen.
+A noted limitation of the VOF method, as discussed in \cite{hirt1981vof}, arises when the mutual distance between bubbles is less than the size of a computational cell. This condition, referred to as mutual coalescence, makes mass conservation challenging. Consequently, alternate methods such as the Multidimensional Universal Limiter with Explicit Solution (MULES) \cite{zalesak1979fully} and isoAdvector \cite{roenby2019isoadvector} have been considered, mainly because these methods are implemented and are available online in open-source. The study by Roenby et al. \cite{roenby2019isoadvector} provides a comprehensive comparison of these two methods and proprietary solvers like ANSYS Fluent and STAR-CCM+, demonstrating their performance using a disk formation flow experiment. Roenby et al.'s work \cite{roenby2019isoadvector} gave promising results. Because of performance and access to the source code, the free surface reconstruction approach from isoAdvector was tested and chosen. The details of the algorithm are presented below.
 
-The algorithm for isoAdvector,(\textbf{}) as described in detail by Roenby et al. \cite{roenby2019isoadvector}, consists of the following steps:
+The algorithm for isoAdvector, as described in detail by Roenby et al. \cite{roenby2019isoadvector}, consists of the following steps:
  
 \begin{enumerate}
 \item \textbf {Initialization:} The initial fluid distribution is represented by a field variable such as a color function or a volume fraction, which is set to $1$ in cells filled with fluid and $0$ in cells filled with air (or another fluid).
@@ -209,67 +236,74 @@ The algorithm for isoAdvector,(\textbf{}) as described in detail by Roenby et al
 \end{enumerate}
 %as schematically shown on the figure %\ref{}
 %High Resolution Interface Capturing (HIRC) \cite{muzaferija1999two} STAR-CCM+ 
-For isoAdvector method the amount of each phase calculated as:
+For isoAdvector method the phase fraction of each phase calculated from a function $H(\mathbf{x}, t)$ \ref{fraction} as:
 \begin{equation}
     \alpha_{i}=\frac{1}{V_{i}} \int_{\Omega_{i}} H(\boldsymbol{x}, t) d V,
 \end{equation}
-where $V_i$ is the volume of cell $i$ and $\Omega_i$ surface??? represents each cell to calculate the phase fractions at the next time step. The volume fraction of each phase is then updated as: 
+where $\Omega_i$ is a control volume and $V_i$ is the volume of cell $i$. Given the phase fraction within each cell at time $t$, the objective is to determine the phase fractions for the subsequent time step. This is achieved by integrating the flux of $\alpha$ across each cell face over time and summing the results: 
 \begin{equation}\label{isoAd-2_}
     \alpha_{i}(t+\Delta t)=\alpha_{i}(t)-\frac{1}{V_{i}} \sum_{j \in B_{i}} s_{i j} \int_{t}^{t+\Delta t} \int_{F_{j}} H(\boldsymbol{x}, \tau) \boldsymbol{u}(\boldsymbol{x}, \tau) d \boldsymbol{S} d \tau
 \end{equation}
-Here, the flux of $\alpha$ across each cell face is time-integrated and then summed. The symbol $B_i$ denotes the set of all faces $F_j$ associated with cell $i$. The factor $s_{ij}$ is employed to direct the flux outward from the cell. $\tau$ is the integration variable used over the time step, and $dS$ is the differential area vector pointing out of the volume.
+Here, the symbol $B_i$ denotes the set of all faces $F_j$ associated with cell $i$. The factor $s_{ij}$ is used to orient the flux outward from the cell. $\tau$ is the integration variable used over the time step, $dS$ is the differential area vector pointing out of the volume.
 
 The factor $s_{ij}$ can either be $+1$ or $-1$. Its purpose is to ensure that the product $s_{ij}dS$ always points outward from the cell boundary, even when the orientation of face $j$ causes $dS$ to point into the cell.
 
-The right side integrals could be replaced with $\Delta V_j(t,\Delta t)$, which represents the total volume of fluid transported across face $j$ during one time step in given by:
+The right side integrals could be replaced with $\Delta V_j(t,\Delta t)$, which represents the total volume of fluid transported across face $j$ during one time-step in given by:
 \begin{equation}\label{isoAd-1}
     \Delta V_{j}(t, \Delta t)=\int_{t}^{t+\Delta t} \int_{F_{j}} H(\boldsymbol{x}, \tau) \boldsymbol{u}(\boldsymbol{x}, \tau) d \boldsymbol{S} d \tau
 \end{equation}
-This allows us to experss the next step as: 
+The integrals can be replaces by $\Delta V_j(t,\Delta)$, representing the total fluid volume moved across a face $j$ in a time step. This quantity will be referred as:
+\begin{equation}
+\Delta V_j(t, \Delta t)=\int_t^{t+\Delta t} \int_{F_j} H(\boldsymbol{x}, \tau) \boldsymbol{u}(\boldsymbol{x}, \tau) d \boldsymbol{S} d \tau
+\end{equation}
+This allows us to express the next step as: 
 \begin{equation}
 \alpha_{i}(t+\Delta t)=\alpha_{i}(t)-\frac{1}{V_{i}} \sum_{j \in B_{i}} s_{i j} \Delta V_{j}(t, \Delta t)
 \end{equation}
-In the context of fluid equations of motion treated by the finite volume method, the velocity field is naturally represented by cell-averaged values:
+In the context of fluid equations of motion treated by the finite volume method, the velocity field is represented by cell-averaged values:
 \begin{equation}
-\mathbf{u}_{i}(t) \equiv \frac{1}{V_{i}} \int_{\mathcal{C}_{i}} \mathbf{u}(\mathbf{x}, t) d V
+\mathbf{u}_{i}(t) \equiv \frac{1}{V_{i}} \int_{C_i} \mathbf{u}(\mathbf{x}, t) d V
 \end{equation}
-Given that the convective terms in the governing fluid equations denote the transport of properties like mass and momentum across cell faces, another crucial step for representing the velocity field is the volumetric fluxes across mesh faces:
+Given that the convective terms in the governing fluid equations give the transport of properties like mass and momentum across cell faces, volumetric fluxes across mesh faces are calculated as:
 \begin{equation}\label{isoAd-3}
-\phi_{j}(t) \equiv \int_{\mathcal{F}_{j}} \mathbf{u}(\mathbf{x}, t) \cdot d \mathbf{S}
+\phi_{j}(t) \equiv \int_{F_{j}} \mathbf{u}(\mathbf{x}, t) \cdot d \mathbf{S}
 \end{equation}
 where $\phi_{j}$ is the face flux across the face $j$.
 \subsection{The advection step}
 Many interface flow solvers in the Navier-Stokes equations use a segregated solution approach, wherein the governing flow equations are solved sequentially for each time step. As a result, while advancing the interface from time $t$ to $t + \Delta t$, we only have access to the velocity field information up to time $t$. However, to compute the updated $\alpha i$ as illustrated in equation \ref{isoAd-2}, it's necessary to understand the velocity field within the interval [$t$, $t + \Delta t$]. This implies estimating how the velocity field evolves during this time step.
 
-The most straightforward approach is to presume that the velocity field remains constant throughout the entire time step. This assumption simplifies the expression in equation \ref{isoAd-1} to $u(x, \tau) \approx u(x, t)$. Furthermore, in equation \ref{isoAd-1}, we suppose that the dot product of $u$ with the differential face normal vector, $dS$, on face $F_j$ can be approximated in terms of the volumetric face flux, $\phi_j$  \ref{isoAd-3} as:
+The most straightforward approach is to presume that the velocity field remains constant throughout the entire time step \cite{roenby2019isoadvector}. This assumption simplifies the expression in equation \ref{isoAd-1} to $u(x, \tau) \approx u(x, t)$. Furthermore, in equation \ref{isoAd-1}, we suppose that the dot product of $u$ with the differential face normal vector, $dS$, on face $F_j$ can be approximated in terms of the volumetric face flux, $\phi_j$  \ref{isoAd-3} as:
 \begin{equation}
-\mathbf{u}(\mathbf{x}, t) \cdot d \mathbf{S} \approx \frac{\phi_{j}(t)}{\left|\mathbf{S}_{j}\right|} d S \text { for } \mathbf{x} \in \mathcal{F}_{j}
+\mathbf{u}(\mathbf{x}, t) \cdot d \mathbf{S} \approx \frac{\phi_{j}(t)}{\left|\mathbf{S}_{j}\right|} d S \text { for } \mathbf{x} \in F_{j}
 \end{equation}
-if we set face normal as in \cite{roenby2019isoadvector}:
+if we set the face normal as in \cite{roenby2019isoadvector}:
 \begin{equation}
-\mathbf{S}_{j} \equiv \int_{\mathcal{F}_{j}} d \mathbf{S}
+\mathbf{S}_{j} \equiv \int_{F_{j}} d \mathbf{S}
 \end{equation}
 and substitute in into \ref{isoAd-1}, we will get:
 \begin{equation}\label{isoAd-2}
-\Delta V_{j}(t, \Delta t) \approx \frac{\phi_{j}(t)}{\left|\mathbf{S}_{j}\right|} \int_{t}^{t+\Delta t} \int_{\mathcal{F}_{j}} H(\mathbf{x}, \tau) d S d \tau
+\Delta V_{j}(t, \Delta t) \approx \frac{\phi_{j}(t)}{\left|\mathbf{S}_{j}\right|} \int_{t}^{t+\Delta t} \int_{F_{j}} H(\mathbf{x}, \tau) d S d \tau
 \end{equation}
 while the the rest of the \ref{isoAd-2} is the area of the face $j$ submerged in one fluid, which we call $A_{j}(\tau)$:
 \begin{equation}
-A_{j}(\tau) \equiv \int_{\mathcal{F}_{j}} H(\mathbf{x}, \tau) d S=\int_{\mathcal{F}_{j} \cap \mathcal{A}(\tau)} d S
+A_{j}(\tau) \equiv \int_{F_{j}} H(\mathbf{x}, \tau) d S
 \end{equation}
 Replace $A_{j}(\tau)$ into \ref{isoAd-2} we will get:
 \begin{equation}
 \Delta V_{j}(t, \Delta t) \approx \frac{\phi_{j}(t)}{\left|\mathbf{S}_{j}\right|} \int_{t}^{t+\Delta t} A_{j}(\tau) d \tau
 \end{equation}
-The transport of one fluid across a face is computed only once per face. For internal faces, this calculated value is utilized to update the volume fractions for both cells adjoining the face. This process ensures both local and global conservation of the two fluids, as discussed in \cite{roenby2019isoadvector}.
-\section{Immersed boundary method}
-First, the terminology was used in \cite{peskin1972flow} to study blood flow through the heart. The method has since been applied to various problems in fluid dynamics, solid mechanics, and biological systems. In the current method, solid bodies cover several computational cells. There are two primary approaches to handling fluid-structure interaction problems: body conformal mesh methods and fixed mesh methods. Body conformal mesh methods offer high accuracy but come with increased complexity in implementation and computational cost and are unsuitable for the simulation of granular media processes.
+The transport of one fluid across a face is computed only once per face. For internal faces, this calculated value is utilized to update the volume fractions for both cells adjoining the face. This process ensures both local and global conservation of the two fluids, as discussed in \cite{roenby2019isoadvector} as well as a detailed algorithm.
+%schematically it could be seen in Figure \ref{iso_algo}. 
+
+
+\section{Immersed Boundary Method}
+First, the terminology Immersed Boundary Method (IB) was used by Peskin 1972 \cite{peskin1972flow} to study blood flow through the heart. The method has since been applied to various problems in fluid dynamics, solid mechanics, and biological systems. In the current method, solid bodies cover several computational cells. There are two primary approaches to handling fluid-structure interaction problems: body conformal mesh methods and fixed mesh methods. Body conformal mesh methods offer high accuracy but come with increased complexity in implementation and computational cost and are unsuitable for the simulation of granular media processes.
 
 On the other hand, fixed mesh methods discretize the entire computational domain at once, with both fluid phases and solids sharing a single velocity and pressure field. This leads to more efficient calculations, making the fixed mesh approach the method of choice for this thesis. Figure \ref{fig:CFDDEM} provides a schematic representation of a solid body within a 2D fluid domain before and after discretization. 
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=14cm]{Images/CFD_DEM_scheme.png}
-    \caption{Particle in the fluid domain (left), representation of the particle in DEM (top) and CFD (bottom).  $\Omega_{fluid_1}$ is the water domain, $\Omega_{fluid_2}$ the air phase, $\Omega = \Omega_{fluid}$. $\Gamma_{solid}$ is the interface between fluid and solid. 
+    \caption{Particle in the fluid domain (left), representation of the particle in DEM (top) and CFD (bottom).  $\Omega_{fluid_1}$ is the water domain, $\Omega_{fluid_2}$ the air phase, $\Omega = \Omega_{fluid_1} \cup \Omega_{fluid_2} $. $\Gamma_{solid}$ is the interface between fluid and solid. 
 }
     \label{fig:CFDDEM}
 \end{figure}
@@ -277,7 +311,33 @@ On the other hand, fixed mesh methods discretize the entire computational domain
 
 \subsection{Void fraction calculation}
 
-To account solid body on Eulerian mesh in CFDEMcoupling \cite{kloss2012models} used \textit{smooth representation} \cite{kloss2012models} algorithm where the each sphere of multisperical body divided into a core and corona and similar procedure done for each particle \ref{fig:core}. 
+To account for solid body on Eulerian mesh in CFDEMcoupling \cite{kloss2012models} used \textit{smooth representation} \cite{kloss2012models} algorithm where the each sphere of multisperical body divided into a core and corona and similar procedure done for each particle \ref{fig:core}. 
+
+%. The algorithm calculates the intersection volume based on the particle's geometry and position relative to the mesh cells. This volume is then used to adjust the cell's void fraction, which influences the fluid properties and dynamics in that cell.
+
+%Monte Carlo Simulations: While not the primary method for projecting bodies onto a mesh in most CFD-DEM applications, Monte Carlo simulations can be used for estimating the void fraction within mesh cells, especially when dealing with complex particle shapes or configurations. In this approach, random sampling is used to statistically estimate the volume of space occupied by particles within each cell. Points are randomly distributed within the mesh cells, and the algorithm then determines whether each point falls inside or outside of a particle. The ratio of points inside to the total number of points sampled per cell can estimate the void fraction.
+
+%Detecting particle location within a computational mesh, such as in the CFDEM®coupling framework, involves computational geometry techniques to determine the position of the mesh cells in relation to the particle. The description you've provided outlines a process for calculating the void fraction in a mesh cell based on whether it's within the core or corona of a particle. Here's a breakdown of how particle location might be detected in this context:
+
+%1. **Defining the Particle**: Each particle is characterized by its shape, size, and position. The particle is divided into a core and a corona, where the core is the central part of the particle, and the corona is a surrounding region that allows for a smooth transition between the particle and the fluid.
+
+%2. **Particle Core and Corona**: The core is defined as the region where the particle's presence is full, meaning any mesh cell entirely within this region is completely occupied by the particle (void fraction is 0, or solid volume fraction α = 1). The corona is a transitional region where the particle does not fully occupy the cells.
+
+%3. **Detection of Cell Occupation**: For each cell in the mesh, the algorithm checks whether the cell is within the particle core or corona. This could be done by:
+  % - **Distance Calculations**: Measuring the distance from the cell vertices to the particle's center. If the distance is less than the particle's radius, the vertex is inside the particle.
+ %  - **Geometric Intersection**: Using geometric intersection tests to see if the cell's volume intersects with the volume defined by the particle's geometry.
+
+%4. **Vertex Location Check**: For cells in the corona:
+ %  - If a vertex of a cell is inside the particle, the solid volume fraction is incremented by 1/8 for each such vertex, assuming the particle is spherical and the cell is cubic, resulting in eight vertices per cell.
+ %  - If a vertex lies outside the particle, a line is drawn from the particle center to the vertex. The intersection of this line with the particle's surface is calculated.
+
+%5. **Solid Volume Fraction Calculation**: The fraction of the line within the particle (from the particle center to the intersection point) represents how much of the cell's volume is occupied by the particle. This fraction is then multiplied by 1/8 and added to the solid volume fraction for the cell.
+
+%6. **Iterative Process**: This process is iterated over all cells in the mesh to build a map of void and solid volume fractions that accurately reflects the presence of particles.
+
+%7. **Numerical Methods**: The specific numerical methods used to perform these calculations can include ray casting, point-in-sphere checks, and solving for intersection points between lines and spherical surfaces.
+
+%In CFDEM®coupling, these steps would be programmed into the simulation software, and the detection of particle locations would be performed automatically as part of the simulation process. By applying these calculations, CFDEM®coupling can provide a more accurate representation of the particles in the mesh compared to simpler stair-step methods, which can greatly improve the fidelity of the simulation results.
 
 The \textit{voidFraction} $\beta_i$ model is used to calculate clump forces and correct the fluid velocity field. The main challenge is that particle dynamics are calculated in a Lagrangian coordinate system, while fluid dynamics use an Eulerian coordinate system. To account for the solid body on the Eulerian mesh, the CFDEMcoupling employs a \textit{smooth representation} algorithm \cite{kloss2012models}, where each sphere of a multispherical body is divided into a core and a corona as shown in Figure \ref{fig:core}. A similar procedure is done for each particle.
 \begin{figure}[ht]
@@ -286,19 +346,19 @@ The \textit{voidFraction} $\beta_i$ model is used to calculate clump forces and 
     \caption{Schematic representation of the particle divided into core (white) and corona (gray).}
     \label{fig:core}
 \end{figure}
-All cells detected within the particle's area have their relative positions with respect to the particle checked. If they are located inside the core, their volume fraction is set to one. For cells covered by the corona, a loop over all vertices belonging to the cell begins. If the vertex is inside the particle, the cell's volume fraction is increased by one-eighth (since each cell has eight vertices in the given case). If the vertex lies outside the corona, the intersecting point of the particle hull and the connection between the cell center and edge is computed. The relative length of the line between the cell center and intersection, multiplied by one-eighth, is then added to the cell's current volume fraction. This method's verification has been made in the work by Kloss et al. \cite{kloss2012models}.
+All cells detected within the particle's area have their relative positions with respect to the particle checked. If they are located inside the core, their volume fraction is set to one. For cells covered by the corona, a loop over all vertices belonging to the cell begins. If the vertex is inside the particle, the cell's volume fraction is increased by one-eighth since each cell has eight vertices in the case of a regular hexahedral mesh. If the vertex lies outside the corona, the intersecting point of the particle hull and the connection between the cell center and edge is computed. The relative length of the line between the cell center and intersection, multiplied by one-eighth, is then added to the cell's current volume fraction. This method's verification has been made in the work by Kloss et al. \cite{kloss2012models}. Schematically, the process of detection is provided in Figure \ref{fig:voidfraction-process}.
 
-First we need to assign a weight for every finite volume cell 
+The first stem of the algorithm of finding the \textit{voidFraction} starts assigning a weight for every finite volume cell 
 \begin{equation}
 \beta_{i}=\frac{N_{v c, i}+N_{c c, i} N_{v, i}}{2 N_{v, i}}
 \end{equation}
-where $N_{v c, i}$ and $N_{c c, i} $ are the number of vertices and centers intersecting the immersed body, respectively. $N_{v, i}$ one of the vertices, for haxahedral cell $i = 8$. The weight is used to calculate the velocity of the immersed body at the cell center. The velocity of the immersed body at cell $i$'s center is calculated as:
+where $N_{v c, i}$ and $N_{c c, i} $ are the number of vertices and centers intersecting the immersed body, respectively. $N_{v, i}$ one of the vertices, for haxahedral cell $i = 8$. The weight is used to calculate the velocity of the immersed body at the cell center. The velocity of the immersed body at cell $i$ center is calculated as \cite{blais2016semi}:
 \begin{equation} \label{IB_forces}
     \boldsymbol{u}_{i b, i} = \boldsymbol{v}_{i b}+\frac{1}{N_{v c, \mathrm{i}}+N_{v, \mathrm{i}}}\left[\left(\sum_{j}^{N_{v, i}} \omega \times\left(\boldsymbol{x}_{v, j}-\boldsymbol{x}_{i b}\right)\right)+N_{v, i} \boldsymbol{\omega} \times\left(\boldsymbol{x}_{c, \mathrm{i}}-\boldsymbol{x}_{i b}\right)\right]
 \end{equation}
 The velocity of cell $i$, denoted as $\boldsymbol{u}_{ib, i}$, includes the translational velocity $\boldsymbol{v}_{ib}$ and the rotational velocity around the center of rotation $\boldsymbol{x}_{ib}$. The coordinates of the cell's center and vertices are represented by $\boldsymbol{x}_{c, \mathrm{i}}$ and $\boldsymbol{x}_{v, j}$, respectively. It is important to note that the angular component of the immersed body's velocity at cell $i$'s position cannot be determined analytically due to the stair-casing effect. The expression within the brackets represents this angular velocity, which is not precisely known.
 However, for a fully covered cell, it is equivalent to the angular velocity at the cell center.
-\begin{figure}[!ht]
+\begin{figure}[H]\label{smoothRepresentation}
     \centering
     \begin{minipage}[b]{0.47\textwidth}
         \centering
@@ -326,12 +386,12 @@ However, for a fully covered cell, it is equivalent to the angular velocity at t
         \subcaption{}
     \end{minipage}
 
-    \caption{Schematic representation of defining \textit{voidFraction} process: a)Vertex is outside the particle b) Connecting a line between the cell center and vertex c)Intersecting point of the particle hull and the connection between the cell center and edge is computed d)Summing up the contributions of all vertices}
+    \caption{Schematic representation of defining \textit{voidFraction} process: a)Vertex is outside the particle b) Connecting a line between the cell center and vertex c)Intersecting point of the particle hull and the connection between the cell center and edge is computed d)Summing up the contributions of all vertices.}
     \label{fig:voidfraction-process}
 \end{figure}
 
-Using this methodology, the volume of the projected immersed body may not exactly match the volume enclosed by its surface mesh. Consequently, a halo layer is introduced to adjust the volume of the discretized immersed body. This layer corresponds to cells $i$ where the body fraction $\beta_i$ falls within the range of ]$0$, $1$[. Its size is modified to ensure the volume remains unaffected by cell alignment. The entire process is summarized in the block diagram depicted on the Figure \ref{fig:diag} below.
-\begin{figure}[!htp]
+Using this methodology, the volume of the projected immersed body may not exactly match the volume enclosed by its surface mesh. Consequently, a halo layer is introduced to adjust the volume of the discretized immersed body. This layer corresponds to cells $i$ where the \textit{voidFraction} $\beta_i$ which falls within the range of ]$0$, $1$[. Its size is modified to ensure the volume remains unaffected by cell alignment \cite{blais2016semi}. The entire process is summarized in the block diagram depicted in Figure \ref{fig:diag} below.
+\begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{Images/chap3/diag.png}
     \caption{Schematic diagram for the defining process of the solid on the fluid mesh}
@@ -340,9 +400,9 @@ Using this methodology, the volume of the projected immersed body may not exactl
 \section{Discrete element method}
 The Discrete Element Method (DEM) serves as a foundational approach in the simulation of granular media and solid body motion. DEM models consist of two core components: the individual elements, particles like sand grains or stones, and the contacts between them. The first step in any DEM-based simulation is to establish a geometrical model, specify the mechanical properties of the elements and contacts, and define the time-varying loads on the system.
 
-While perfectly spherical elements are computationally convenient, they often result in unrealistic behavior, particularly in non-cemented assemblies. This has been understood since the 1980s, leading to the use of 'clumps' for representing non-spherical particles. A clump is essentially a set of multiple overlapping spheres rigidly connected to approximate the shape of a complex particle. These clumps move as a single entity, effectively mimicking a particle with a more intricate shape. Graphical examples of clumps are shown in Figures \ref{fig:3figsA}, \ref{fig:3figsB}.
+While perfectly spherical elements are computationally convenient, they often result in unrealistic behavior, particularly in non-cemented assemblies. This has been understood since the 1980s, leading to the use of 'clumps' for representing non-spherical particles. A clump is essentially a set of multiple overlapping spheres rigidly connected to approximate the shape of a complex particle. These clumps move as a single entity, effectively mimicking a particle with a more intricate shape. Graphical examples of clumps are shown in Figures \ref{fig:3figsA} \ref{fig:3figsB}.
 
-The use of clumps introduces some computational overhead due to the increased number of contact interactions and complexity in force calculations. However, this is still more efficient than directly simulating truly irregular shapes, which would require even more complex contact detection algorithms. The use of clumps is a straightforward and computationally efficient way to represent non-spherical particles in DEM simulations. By adjusting the number, size, and arrangement of spheres within a clump, various particle shapes can be approximated with varying levels of accuracy. Clumps can increase the computational cost of DEM simulations compared to simple spherical particles, as the number of contact interactions and the complexity of force calculations may increase. However, this approach is still more efficient than directly simulating irregular particle shapes, which would involve more complex contact detection and force calculations.
+In DEM simulations, representing non-spherical particles through clumps—a collection of bonded spheres arranged to approximate irregular shapes—balances accuracy and computational efficiency. This method inherently increases the computational overhead due to a rise in contact interactions and the complexity of force calculations. Nonetheless, it remains a more computationally viable option than directly simulating truly irregular shapes, which would necessitate even more sophisticated contact detection algorithms. A wide range of particle shapes can be accurately modeled by selecting the number, size, and configuration of spheres within each clump. Although clumps elevate the computational demands compared to simulations involving only spherical particles, they provide a practical compromise by enabling the approximation of complex particle geometries without excessively taxing computational resources.
 \begin{figure}[!htp]
 \centering
 \parbox{7cm}{
@@ -355,22 +415,26 @@ The use of clumps introduces some computational overhead due to the increased nu
 \subcaption{}
 \label{fig:3figsB}
 \end{minipage}
-\caption{Clump example a) schematic representation of the solid, b) STL image of the solid body model}
+\caption{Clump example a) schematic representation of the solid, b) STL image of the solid body model.}
 \end{figure}
 The particles motion formulated in Lagrangian frame of reference \cite{cundall1979discrete} with momentum and inertia equations:
 \begin{equation}\label{solid_body_force}
-m_{i} \frac{d \boldsymbol{u}_{\mathrm{p}, i}}{d t}= \mathbf{F}_{i,n} + \mathbf{F}_{i,t} + \mathbf{F}_{i,f} + \mathbf{F}_{i,b}
+\begin{aligned}
+& m_i \frac{d \boldsymbol{u}_{\mathrm{p}, i}}{d t}=\sum_{i \neq j} \boldsymbol{F}_{i j}^{\mathrm{int}}+\boldsymbol{F}_i^{\mathrm{ext}} \\
+& I_i \frac{d \boldsymbol{\omega}_{\mathrm{p}, i}}{d t}=\sum_{i \neq j} \boldsymbol{M}_{i j}^{\mathrm{int}}+\boldsymbol{M}_i^{\mathrm{ext}}
+\end{aligned}
 \end{equation}
-\begin{equation}
-I_{i} \frac{d \boldsymbol{\omega}_{\mathrm{p}, i}}{d t}= \mathbf{r}_{i,c}+\mathbf{F}_{i,t}+\mathbf{T}_{i,r},
-\end{equation}
-where $\mathbf{u}_{\mathrm{p}, i}$ - translational velocity of the particle $i$, $\boldsymbol{\omega}_{\mathrm{p}, i}$ - angular velocity of the particle $i$, $\mathbf{F}_{i,n}$ is the normal particle-particle contact force, $\mathbf{F}_{i,t}$ tangential particle-particle contact force. $\mathbf{F}_{i,f}$ force from surrounding fluid phase. All forces like gravity, electrostatic forces etc are summarised to $\mathbf{F}_{i,b}$ and $\mathbf{T}_{i,r}$ is an additional torque on the particle.
+where $\mathbf{u}_{\mathrm{p}, i}$ - translational velocity of the particle $i$. $m_i$ - particle mass, $I_i$ - the moment of inertia. $\boldsymbol{\omega}_{\mathrm{p}, i}$ - angular velocity of the particle $i$, $\boldsymbol{F}_{i j}^{\mathrm{int}}+\boldsymbol{F}_i^{\mathrm{ext}}$ is the inter-particle interaction and external forces.   $\boldsymbol{M}_{i j}^{\mathrm{int}}+\boldsymbol{M}_i^{\mathrm{ext}}$ is the inter-particle interaction and external torque.
 
-The second moment of inertia $I_p$ is essential for calculating stress, for the case of a sphere, it could be calculated as:
+The second moment of inertia $I_i$ is essential for calculating stress. For the case of a sphere, it could be calculated as:
 \begin{equation}
-I_{p}=\frac{2 m_{p} r^{2}}{5}
+I_{i}=\frac{2 m_{p} r^{2}}{5}
 \end{equation}
-In this application, the discrete element method used from LIGGGHTS® package, which is an open-source software designed for simulating granular flows and their interactions. LIGGGHTS® is built on C++ and based on LAMMPS® molecular dynamics simulator.
+
+For a spherical particle, the moment of inertia \( I_i \) can be considered as a scalar because the sphere exhibits symmetry about all axes. In this case, the moment of inertia will be the same for any axis of rotation that passes through the sphere's center. This simplifies the mathematical description and calculations, as the direction of the axis of rotation doesn't need to be considered—the value of the moment of inertia will be constant in any case.
+
+In vector form, the moment of inertia is usually represented by a tensor, which is generally a matrix. However, for a sphere, this matrix would be diagonal with identical diagonal elements, allowing it to be simplified to a scalar value.
+In this application, the discrete element method is used from the LIGGGHTS® package, which is open-source software designed for simulating granular flows and their interactions. LIGGGHTS® is built on C++ and based on LAMMPS® molecular dynamics simulator.
 
 \subsection{Time integration}
 
@@ -389,42 +453,43 @@ Here, $\partial \mathbf{u}_{p,i}/dt(t+\Delta t)$ is evaluated from the acting fo
 
 \subsection{Particle–particle contact model}
 
-The used method is based on the theory of Cundall and Strack\cite{cundall1979discrete}, where the complex collision behaviour of spheres is approximated by simple spring-dashpot interactions in normal ($n$) and tangential ($\tau$) direction as
+The used method is based on the theory of Cundall and Strack\cite{cundall1979discrete}, where the complex collision behavior of spheres is approximated by simple spring-dashpot interactions in normal ($n$) and tangential ($\tau$) direction as
 \begin{equation}
-\boldsymbol{F}_{i j}^{int}=\boldsymbol{F}_{i j}^{n} \cdot n_{i j}+\boldsymbol{F}_{i j}^{\tau} \cdot \tau_{i j}
+\boldsymbol{F}_{i j}=\boldsymbol{F}_{i j}^{n} \cdot n_{i j}+\boldsymbol{F}_{i j}^{\tau} \cdot \tau_{i j}
 \end{equation}
 \begin{equation}
-    \boldsymbol{F}_{\mathrm{n}}=k_{\mathrm{n}} \delta_{\mathrm{n}}-\eta_{\mathrm{n}} \boldsymbol{u}_{\mathrm{p}, \mathrm{n}}^{\mathrm{rel}}
+    \boldsymbol{F}^{\mathrm{n}}_{ij}=k_{\mathrm{n}} \delta_{\mathrm{n}}-\eta_{\mathrm{n}} \boldsymbol{u}_{\mathrm{p}, \mathrm{n}}^{\mathrm{rel}}
 \end{equation}
 \begin{equation}
-    \boldsymbol{F}_{\tau}=k_{\tau} \delta_{\tau}-\eta_{\tau} \boldsymbol{u}_{\mathrm{p},{\tau}}^{\mathrm{rel}}
+    \boldsymbol{F}^{\tau}_{ij}=k_{\tau} \delta_{\tau}-\eta_{\tau} \boldsymbol{u}_{\mathrm{p},{\tau}}^{\mathrm{rel}}
 \end{equation}
-where $k$ is the spring coefficient from Hertz contact theory, $\delta_n$ the particle overlap, $\eta_{\tau}$ the viscous damping coefficient from Mindlin-Deresiewicz \cite{mindlin1953elastic} and $\mathbf{u}^{rel}$ the relative velocity of the colliding particles.
+where $k$ is the spring coefficient from Hertz contact theory, $\delta$ the particle overlap, $\eta$ the viscous damping coefficient and $\mathbf{u}^{rel}$ the relative velocity of the colliding particles.
 
-For a spherical particle, the moment of inertia \( I_i \) can be considered as a scalar because the sphere exhibits symmetry about all axes. In this case, the moment of inertia will be the same for any axis of rotation that passes through the sphere's center. This simplifies the mathematical description and calculations, as the direction of the axis of rotation doesn't need to be considered—the value of the moment of inertia will be constant in any case.
+On a Figures \ref{fig:2figsA} is shown force directions for a multi-spherical body under deformation and the force interaction at the contact point between spheres presented on a Figure \ref{fig:2figsB}.
 
-In vector form, the moment of inertia is usually represented by a tensor, which is generally a matrix. However, for a sphere, this matrix would be diagonal with identical diagonal elements, allowing it to be simplified to a scalar value.
 
 \begin{figure}[!htp]
 \centering
 \parbox{7cm}{
 \includegraphics[width=7cm]{Images/particle_model_2.png}
-\caption{Force directions for a multi-spherical body.}
+\subcaption{}
 \label{fig:2figsA}}
 \qquad
 \begin{minipage}{7cm}
 \includegraphics[width=7cm]{Images/particle_model.png}
-\caption{Schematic representation of contact model for a multi-spherical body.}
+\subcaption{}
 \label{fig:2figsB}
 \end{minipage}
+\caption{Schematic representation of a) force directions for a multi-spherical body, b) contact model for a multi-spherical body.}
 \end{figure}
+
 \begin{equation}
 \begin{aligned}
 k_{\mathrm{n}} & =\frac{4}{3} E_{\text {eff }} \sqrt{r_{\mathrm{eff}} \delta_{\mathrm{n}}} \\
 k_{\tau} & =8 G_{\text {eff }} \sqrt{r_{\text {eff }} \delta_{n}}
 \end{aligned}
 \end{equation}
-where $r_{\text {eff }}$ the effective radius, $E_{\text {eff }}$ Young’s modulus and $G_{\text {eff }}$ shear modulus, which defined for two colliding particles as:
+where $r_{\text {eff }}$ the effective radius, $E_{\text {eff }}$ is the Young’s modulus and $G_{\text {eff }}$ is the shear modulus, which defined for two colliding particles as:
 \begin{equation}
 \begin{aligned}
 r_{\mathrm{eff}} & =\left(\frac{1}{r_i}+\frac{1}{r_j}\right)^{-1} \\
@@ -432,7 +497,7 @@ E_{\text {eff }} & =\left(\frac{1-\nu_{\mathrm{p}, i}^2}{E_i}+\frac{1-\nu_{\math
 G_{\text {eff }} & =\left(\frac{2-\nu_{\mathrm{p}, i}}{G_i}+\frac{2-\nu_{\mathrm{p}, j}}{G_j}\right)^{-1},
 \end{aligned}
 \end{equation}
-where $\nu$ is the Poisson’s ratio and 
+where $\nu$ is the Poisson’s ratio and $ \eta_{\mathrm{n}}, \eta_{\tau}$ are damping coefficients form Mindlin-Deresiewicz \cite{mindlin1953elastic} theory, which could be found as:
 \begin{equation}
 \begin{aligned}
  \eta_{\mathrm{n}} &= -\alpha(e) \sqrt{m_{\mathrm{eff}} k_{\mathrm{n}}} \\
@@ -449,7 +514,7 @@ There are several methods which is available for solving the two-way coupling pr
 \item Blais \cite{blais2016semi} stores the solid body force as a separate field and adjusts the same implementation as Hager \cite{kloss2012models}.
 \item The proposed approach in the current work for two-phase flow is based on the methods mentioned above and the VOF method with isoAdvector for free surface reconstruction.
 \end{itemize}
-In the paper by Balachandran et al. \cite{balachandran2021resolved}, a resolved CFD-DEM method was used for blood flow simulations. This work serves as an example of two-way coupling with a solid moving body having 6 degrees of freedom (DOF) for one fluid phase. The model of a red blood cell is treated as a cluster of overlapping spheres interconnected by a flexible mathematical bond. The inter-cellular interactions are modeled using a Hertz-Mendelian model, with attractive forces enforced through a cohesive force based on the Morse potential. A similar idea is used as the core concept for simulating granular media of artificial shape as rocks and boulders.
+In the paper by Balachandran et al. \cite{balachandran2021resolved}, a resolved CFD-DEM method was used for blood flow simulations. This work serves as an example of two-way coupling with a solid moving body having 6 degrees of freedom (DOF) for one fluid phase. The model of a red blood cell is treated as a cluster of overlapping spheres interconnected by a flexible mathematical bond. The inter-cellular interactions are modeled using a Hertz-Mendelian model, with attractive forces enforced through a cohesive force based on the Morse potential. A similar idea is used as the core concept for simulating granular media of artificial shape such as rocks and boulders.
 
 The resolved CFD-DEM method is technically an Immersed Boundary Method with a fictitious domain for the flow, where the DEM describes particle interactions. The full description of the system is as follows:
 
@@ -473,7 +538,7 @@ The resolved CFD-DEM method is technically an Immersed Boundary Method with a fi
 I_{p} \frac{\mathrm{d} \omega_{\mathbf{p}}}{\mathrm{d} t}=\mathbf{r} \times\left(F_{p}^{f}+\sum_{N_{p}} F_{p}^{p}+\sum_{N_{w}} F_{p}^{w}+F_{p}^{\mathrm{ext}}\right)\\ \quad in ~\Omega_s
 %\end{array}
 \end{equation}
-where  $\mathbf{f}_{s}$ - is a force from the solid body side which calculated with the DEM, $\Omega_f,\Omega_a$ -  is the volume taken by fluid and air correspondingly, $m_p$ - is the particle mass, $F^p_f$ is the hydrodynamic forces acting on the particle and $F^p_p$ and $F^w_p$ are the particle–particle and particle–wall interaction forces, respectively. $F^{ext}_p$ is the $p$ external force acting on the particle which comes from cohesion, adhesion and other interaction forces. $I_p$ is the second moment of inertia of the particle, ${\omega}_p$ is the angular velocity, and $r$ is the distance between the particle centroid and a point on the surface of the particle. 
+where  $\mathbf{f}_{s}$ - is a force from the solid body side, which is calculated with the DEM, $\Omega_f,\Omega_a$ -  is the volume taken by fluid and air correspondingly, $\Omega_s$ - solid volume, $m_p$ - is the particle mass, $F^p_f$ is the hydrodynamic forces acting on the particle and $F^p_p$, and $F^w_p$ are the particle–particle and particle–wall interaction forces, respectively. $F^{ext}_p$ is the external force acting on the particle $p$, which comes from cohesion, adhesion, and other interaction forces. $I_p$ is the second moment of inertia of the particle, ${\omega}_p$ is the angular velocity, and $r$ is the distance between the particle centroid and a point on the surface of the particle. 
 
 There are two primary categories of CFD-DEM: unresolved and resolved. In the unresolved method, the particle size is significantly smaller than the computational cell. Here, the particles' motion is simulated as if they were another fluid, and this is solved using the Navier-Stokes momentum equation \cite{kloss2012models}. In contrast, in the resolved method, the particle size is considerably larger than the computational cell, as shown in the Figure \ref{fig:res_unres} below:
 \begin{figure}[h]
@@ -483,24 +548,22 @@ There are two primary categories of CFD-DEM: unresolved and resolved. In the unr
     \caption{Particle representation approaches}
     \label{fig:res_unres}
 \end{figure}
-For the resolved CFD-DEM there is two main approaches how to provide the coupling. One is direct forcing approach \cite{uhlmann2005immersed} which could be used to modify the flow with a no-slip boundary condition which change the particle velocity. The main feature of the approach is dependence on the spatial discretization which used for IB flux calculation because the velocity field have to be divergence free.
+For the resolved CFD-DEM, there are two main approaches how to provide the coupling. One is the direct forcing approach \cite{uhlmann2005immersed}, which could be used to modify the flow with a no-slip boundary condition, which changes the particle velocity. The main feature of the approach is dependence on spatial discretization, which is used for IB flux calculation because the velocity field has to be divergence-free.
 
-Another one is continuous forcing approach \cite{mittal2005immersed} where the source term from the solid body \ref{2.13} added before discretization, therefore no independence from spatial discretization.
+Another one is the continuous forcing approach \cite{mittal2005immersed} where the source term from the solid body \ref{2.13} is added before discretization, therefore no independence from spatial discretization.
 
 \begin{equation}\label{2.13}
-F_{B}=\frac{\rho \beta \left(\mathbf{u}_{\mathbf{p}}-\mathbf{u}_f\right)}{\kappa \Delta t}
+F_{B}=\frac{\rho \beta \left(\mathbf{u}_{\mathbf{p}}-\mathbf{u}_f\right)}{ \Delta t}
 \end{equation}
-where $\mathbf{u}_f$ and $\mathbf{u}_p$ are fluid and particle velocity correspondingly. The solid volume fraction $\beta$ or so-called \textit{voidFraction}, $\beta = 1$ when the cell fully occupied with the solid, or $\beta = 0$ if it not occupied and at the interface $0 < \beta < 1$. %as schematically shown on the Fig
-%ref{} privide a figure
-$\kappa$ is the rigid body constraint.
+where $\mathbf{u}_f$ and $\mathbf{u}_p$ are fluid and particle velocity correspondingly. The solid volume fraction $\beta$ or so-called \textit{voidFraction}, $\beta = 1$ when the cell is fully occupied with the solid, or $\beta = 0$ if it is not occupied and at the interface $0 < \beta < 1$.
 
-Note that the method has been used for Fluid Structure Interaction (FSI) problems \cite{blais2016semi}, \cite{nan2023high}, \cite{mao2020resolved}, but original part is combination of two phase flow with surface reconstruction method interaction with solid bodies of arbitrary shape. 
+Note that the method has been used for Fluid-Structure Interaction (FSI) problems \cite{blais2016semi}, \cite{nan2023high}, \cite{mao2020resolved}, but the original part is a combination of two-phase flow with surface reconstruction method interaction with solid bodies of arbitrary shape. 
 
 \subsection{Force term calculation}
 
-To account solid body forces \ref{IB_forces} during the computation of the system of governing equations we will add particle position data, save in \textit{voidFraction} field and with it as source term in momentum equation during calculation pressure and velocity cycle which is based on PISO algorithm, described before in \ref{p-v-coupling} section.
+To account for solid body forces \ref{IB_forces} during the computation of the system of governing equations, we will add particle position data, save it in \textit{voidFraction} field, and with it as a source term in momentum equation during calculation pressure and velocity cycle which is based on PISO algorithm, described before in \ref{p-v-coupling} section.
 
-\textbf{step 1:} Prediction step, to find intermediate velocity will include body force calculated on previous time step:
+\textbf{step 1:} Prediction step, to find intermediate velocity will include body force calculated on the previous time step:
 
 \begin{equation}\label{NS_algebraic_1}
     a_{P}^{\mathrm{u}} \mathbf{u}_{P}+\sum_{N} a_{N}^{\mathrm{u}} \mathbf{u}_{N}= -\nabla p + \mathbf{F}^{m*}_i
@@ -512,7 +575,7 @@ a_{P}^{\mathrm{u}} \mathbf{u}_{P} &=\mathbf{H}(\mathbf{u})-\nabla p \\
 \mathbf{u}_{P} &=\left(a_{P}^{\mathrm{u}}\right)^{-1}(\mathbf{H}(\mathbf{u})-\nabla p)
 \end{aligned}
 \end{equation}
-where $P$ is an index arbitrary velocity node, $N$ is an index from neighbouring cells, $\mathbf{F}^{m*}_i$ - is immersed boundary forcing term. We also need to solve phase convection equation at this step.
+where $P$ is an index arbitrary velocity node, $N$ is an index from neighbouring cells, $\mathbf{F}^{m*}_i$ - is immersed boundary forcing term. We also need to solve the phase convection equation at this step.
 
 \textbf{step 2:} Correction step,
 Compute flux on a cell faces using Rhie-Chow \cite{rhie} correction
@@ -528,18 +591,23 @@ then correct the velocity field:
 \begin{equation}
     \mathbf{u}^{*} = (a_{P}^{\mathbf{u}})^{-1}(H(\mathbf{u}) - \nabla p^* + \mathbf{F}^{m*}_i)
 \end{equation}
-where $\mathbf{u}^*$ and $p^*$,an intermediate velocity and a pressure. Finally, this forcing term is corrected using the difference between the current velocity and the prescribed one within the immersed body
-\begin{equation}
-\mathbf{F}_{i}^{m^{* *}} = \boldsymbol{F}_{i}^{m^{*}}+\frac{\alpha \beta_{i}}{\Delta t}\left(\boldsymbol{u}_{i b, i}-\boldsymbol{u}_{i}^{m^{* *}}\right)
-\end{equation}
-Then repeat step 2 until it converged or depends on how many correction steps we choose to run, after write down new velocity and pressure fields $\mathbf{u}^{m+1}$ and $p^{m+1}$ for the next step $m + 1$. Schematically algorithm shown on the Figure \ref{fig:diag_PISO} below.
+where $\mathbf{u}^*$ and $p^*$, an intermediate velocity and a pressure. 
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{Images/chap3/diag_PISO.png}
     \caption{Schematic diagram for CFD-DEM algorithm.}
     \label{fig:diag_PISO}
 \end{figure}
 
+Finally, this forcing term is corrected using the difference between the current velocity and the prescribed one within the immersed body
+\begin{equation}
+\mathbf{F}_{i}^{m^{* *}} = \boldsymbol{F}_{i}^{m^{*}}+\frac{\rho \beta_{i}}{\Delta t}\left(\boldsymbol{u}_{i b, i}-\boldsymbol{u}_{i}^{m^{* *}}\right)
+\end{equation}
+Then repeat step 2 until it converges or depends on how many correction steps we choose to run after writing down new velocity and pressure fields $\mathbf{u}^{m+1}$ and $p^{m+1}$ for the next step $m + 1$. Schematically, the algorithm is shown in Figure \ref{fig:diag_PISO}.
+
+
+
 \section{Conclusion}
-This chapter provided the final algorithm for coupling sold bodies and fluid parts. For the fluid part, we used the sharp interface VOF method - isoAdvector\cite{roenby2019isoadvector}. For simulation, the solid part Hertz particle-particle contact model is considered. We also provided examples of multispherical solid bodies proposed to be used in the algorithm as approximations of solid rocks for landslide simulation.
+This chapter provided the final algorithm for coupling solid bodies and fluid parts. For the fluid part, we used the sharp interface VOF method - isoAdvector\cite{roenby2019isoadvector}. For simulation, the solid part Hertz particle-particle contact model is considered. We also provided examples of multispherical solid bodies proposed to be used in the algorithm as approximations of solid rocks for landslide simulation.
+As a final step, the whole coupling algorithm based on the PISO approach of pressure-velocity correction.
