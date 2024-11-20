@@ -55,7 +55,7 @@ The obtained data underscores the reliability of our CFD-DEM simulation and capt
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=13cm]{GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_cells_dt_0_0005_simulation.png}
+    \includegraphics[width=13cm]{Images/chap3/nan_simulation_192000_cells_dt_0_0005_simulation.png}
     \caption{Falling sphere in 1 phase fluid 1) velocity of the particle 2) comparison in z-direction}
     \label{fig:trajectory_1ph}
 \end{figure}
@@ -82,7 +82,7 @@ r=\frac{h_{\text {coarse }}}{h_{\text {fine }}}>1
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=16cm, height = 10cm]{GWU_Thesis_Sarmakeeva/Images/chap3/richardson_extrapoltation.png}
+    \includegraphics[width=16cm, height = 10cm]{Images/chap3/richardson_extrapoltation.png}
     \caption{The velocity relative error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
    \label{fig:l2}
 \end{figure}
@@ -102,14 +102,14 @@ By applying Richardson extrapolation, we found that the relative error for the f
 
 %\begin{figure}[!ht]
 %    \centering
-%    \includegraphics[width=16cm, height = 10cm]{GWU_Thesis_Sarmakeeva/Images/chap3/l2_norm.png}
+%    \includegraphics[width=16cm, height = 10cm]{Images/chap3/l2_norm.png}
 %    \caption{$L_2$ norm of the velocity error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
  %   \label{fig:l2}
 %\end{figure}
 
 %\begin{figure}[!ht]
  %   \centering
- %   \includegraphics[width=16cm, height = 10cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/l_inf.png }
+ %   \includegraphics[width=16cm, height = 10cm]{Images/chap3/l_inf.png}
 %    \caption{$L_{\infty}$ norm of the velocity error obtained for the problem of a 3D falling sphere with CFDEMcoupling, for implemented solver with introduced a coupling force model.}
  %   \label{fig:l_inf}
 %\end{figure}
@@ -127,7 +127,7 @@ To better understand how these parameters could affect the computations, we comp
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=13cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_diff_exchange_time.png}
+    \includegraphics[width=13cm]{Images/chap3/nan_simulation_192000_diff_exchange_time.png}
    \caption{Different settings for communication between CFD and DEM parts for every 10, 8, 6, 4, 2, 1 exchange time step  $ts$ 1) velocity component 2) change in z-direction .}
     \label{fig:communication}
 \end{figure}
@@ -136,7 +136,7 @@ Figure \ref{fig:communication} shows the data for the problem of a 3D falling sp
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=12cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_cells_dt_different.png }
+    \includegraphics[width=12cm]{Images/chap3/nan_simulation_192000_cells_dt_different.png }
     \caption{ Different setting for $\Delta t$ 1) velocity component 2) change in z-direction.}
     \label{fig:diff_dt}
 \end{figure}
@@ -144,7 +144,7 @@ Figure \ref{fig:communication} shows the data for the problem of a 3D falling sp
 Another simulation done where there were computations of 3D falling spheres for the different time steps. Results for $\Delta t = 0.00001$, $0.00005$ and $0.0005$ are shown on Figure \ref{fig:diff_dt}. For this experiment, we used a mesh with 192000 computational cells.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=14cm]{ GWU_Thesis_Sarmakeeva/Images/chap3/nan_simulation_192000_diff_cells_number.png}
+    \includegraphics[width=14cm]{/Images/chap3/nan_simulation_192000_diff_cells_number.png}
     \caption{A different setting for $\Delta x$: 1) velocity component 2) change in the z-direction.}
     \label{fig:cell_num}
 \end{figure}
@@ -247,37 +247,37 @@ This simulation is essential to test the numerical accuracy of the algorithm for
     \centering
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/water_sphere/sphere_in_water0.png}
+        \includegraphics[width=\linewidth]{Images/chap4/water_sphere/sphere_in_water0.png}
         \subcaption{0.1 sec}
     \end{minipage}%
     \hspace{0.05\textwidth}
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/water_sphere/sphere_in_water02.png}
+        \includegraphics[width=\linewidth]{Images/chap4/water_sphere/sphere_in_water02.png}
         \subcaption{0.2 sec}
     \end{minipage}
     \newline
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/water_sphere/sphere_in_water04.png}
+        \includegraphics[width=\linewidth]{Images/chap4/water_sphere/sphere_in_water04.png}
         \subcaption{0.4 sec}
     \end{minipage}%
     \hspace{0.05\textwidth}
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/water_sphere/sphere_in_water07.png}
+        \includegraphics[width=\linewidth]{Images/chap4/water_sphere/sphere_in_water07.png}
         \subcaption{0.7 sec}
     \end{minipage}
     \newline
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/water_sphere/sphere_in_water09.png}
+        \includegraphics[width=\linewidth]{Images/chap4/water_sphere/sphere_in_water09.png}
         \subcaption{0.9 sec}
     \end{minipage}%
     \hspace{0.06\textwidth}
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/water_sphere/sphere_in_water12.png}
+        \includegraphics[width=\linewidth]{Images/chap4/water_sphere/sphere_in_water12.png}
         \subcaption{1.2 sec}
     \end{minipage}
     \caption{Visualization of sphere bouncing in two-phase fluid from CFD-DEM simulation.}
@@ -360,26 +360,26 @@ Like them, we run the simulations with one multi-spherical body falling into the
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/clump_1.png}
+        \includegraphics[width=\linewidth]{Images/chap4/clump_1.png}
         \subcaption{0 sec}
         %(a) 0. s
     \end{minipage}%
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/clump_2.png}
+        \includegraphics[width=\linewidth]{Images/chap4/clump_2.png}
         \subcaption{0.1 sec}
         %(b) 0.35 s
     \end{minipage}
     \newline
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/clump_3.png}
+        \includegraphics[width=\linewidth]{Images/chap4/clump_3.png}
         \subcaption{0.2 sec}
         %(c) Description
     \end{minipage}%
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/clump_4.png}
+        \includegraphics[width=\linewidth]{Images/chap4/clump_4.png}
         \subcaption{0.3 sec}
         %(d) Description
     \end{minipage}
@@ -404,37 +404,37 @@ Figure \ref{fig:two-phase_exp_clumps} (a) shows clumps placement at $0.05$ sec; 
     \centering
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_1.png}
+        \includegraphics[width=\linewidth]{Images/chap4/landslide_1.png}
         \subcaption{0.05 sec}
     \end{minipage}%
     \hspace{0.05\textwidth}
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_2.png}
+        \includegraphics[width=\linewidth]{Images/chap4/landslide_2.png}
         \subcaption{0.1 sec}
     \end{minipage}
     \newline
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_3.png}
+        \includegraphics[width=\linewidth]{Images/chap4/landslide_3.png}
         \subcaption{0.15 sec}
     \end{minipage}%
     \hspace{0.05\textwidth}
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_4.png}
+        \includegraphics[width=\linewidth]{Images/chap4/landslide_4.png}
         \subcaption{0.2 sec}
     \end{minipage}
     \newline
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_5.png}
+        \includegraphics[width=\linewidth]{Images/chap4/landslide_5.png}
         \subcaption{0.25 sec}
     \end{minipage}%
     \hspace{0.06\textwidth}
     \begin{minipage}{.4\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{GWU_Thesis_Sarmakeeva/Images/chap4/landslide_6.png}
+        \includegraphics[width=\linewidth]{Images/chap4/landslide_6.png}
         \subcaption{0.3 sec}
     \end{minipage}
     \caption{Solid multi-spherical bodies interact with a collapsing column of liquid: a) clumps placement b) clumps moving under gravity force c) clumps fully covered by a body of fluid, fluid hits the right boundary of the domain d) clumps continue to move under fluid and gravity forces e) fluid flow continues to develop f) developing fluid flow and solid bodies rotation.}
@@ -469,7 +469,7 @@ The computational performance and parallel scalability of the developed solver w
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=15cm]{GWU_Thesis_Sarmakeeva/Images/chap3/parallel_runtime.png}
+    \includegraphics[width=15cm]{Images/chap3/parallel_runtime.png}
     \caption{Runtime (in seconds) versus number of processors for the experiment of solid multi-spherical bodies interacting with a collapsing column of liquid. }
     \label{fig:runtime}
 \end{figure}
